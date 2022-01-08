@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --variant=devRelease",
-    "ios": "react-native run-ios",
+    "android:dev": "react-native run-android --variant devDebug",
+    "android:prod": "react-native run-android --variant prodDebug",
+    "ios:dev": "react-native run-ios --scheme recipe4m-dev",
+    "ios:prod": "react-native run-ios --scheme recipe4m",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"

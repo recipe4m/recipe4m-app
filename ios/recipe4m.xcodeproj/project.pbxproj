@@ -42,7 +42,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = recipe4m/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = recipe4m/main.m; sourceTree = "<group>"; };
 		1D0AE47A65C8663E3B452821 /* Pods-recipe4m-recipe4mTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recipe4m-recipe4mTests.release.xcconfig"; path = "Target Support Files/Pods-recipe4m-recipe4mTests/Pods-recipe4m-recipe4mTests.release.xcconfig"; sourceTree = "<group>"; };
-		32CBCD052789429B007044F2 /* recipe4m dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "recipe4m dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32CBCD052789429B007044F2 /* recipe4m-dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "recipe4m-dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		32CBCD062789429B007044F2 /* recipe4m copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "recipe4m copy-Info.plist"; path = "/Users/fine/workspace/recipe4m/recipe4m-app/ios/recipe4m copy-Info.plist"; sourceTree = "<absolute>"; };
 		6423831EA8574132BED9D8CC /* libPods-recipe4m.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-recipe4m.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-recipe4m-recipe4mTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recipe4m-recipe4mTests.debug.xcconfig"; path = "Target Support Files/Pods-recipe4m-recipe4mTests/Pods-recipe4m-recipe4mTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* recipe4m.app */,
 				00E356EE1AD99517003FC87E /* recipe4mTests.xctest */,
-				32CBCD052789429B007044F2 /* recipe4m dev.app */,
+				32CBCD052789429B007044F2 /* recipe4m-dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -211,9 +211,9 @@
 			productReference = 13B07F961A680F5B00A75B9A /* recipe4m.app */;
 			productType = "com.apple.product-type.application";
 		};
-		32CBCCF42789429B007044F2 /* recipe4m dev */ = {
+		32CBCCF42789429B007044F2 /* recipe4m-dev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 32CBCD022789429B007044F2 /* Build configuration list for PBXNativeTarget "recipe4m dev" */;
+			buildConfigurationList = 32CBCD022789429B007044F2 /* Build configuration list for PBXNativeTarget "recipe4m-dev" */;
 			buildPhases = (
 				32CBCCF52789429B007044F2 /* [CP] Check Pods Manifest.lock */,
 				32CBCCF62789429B007044F2 /* Start Packager */,
@@ -228,9 +228,9 @@
 			);
 			dependencies = (
 			);
-			name = "recipe4m dev";
+			name = "recipe4m-dev";
 			productName = recipe4m;
-			productReference = 32CBCD052789429B007044F2 /* recipe4m dev.app */;
+			productReference = 32CBCD052789429B007044F2 /* recipe4m-dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -265,7 +265,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* recipe4m */,
 				00E356ED1AD99517003FC87E /* recipe4mTests */,
-				32CBCCF42789429B007044F2 /* recipe4m dev */,
+				32CBCCF42789429B007044F2 /* recipe4m-dev */,
 			);
 		};
 /* End PBXProject section */
@@ -870,7 +870,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		32CBCD022789429B007044F2 /* Build configuration list for PBXNativeTarget "recipe4m dev" */ = {
+		32CBCD022789429B007044F2 /* Build configuration list for PBXNativeTarget "recipe4m-dev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				32CBCD032789429B007044F2 /* Debug */,
