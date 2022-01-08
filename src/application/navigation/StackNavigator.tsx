@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigation, useNavigationState } from '@react-navigation/native';
 
 import BottomTabNavigator from './BottomTabNavigator';
+import { ScreenName } from './ScreenName';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 function StackComponent() {
@@ -37,12 +38,11 @@ const Stack = createNativeStackNavigator();
 
 export default function StackNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        presentation: 'modal',
-        gestureEnabled: true,
-      }}>
-      <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name={ScreenName.BottomTabNavigator}
+        component={BottomTabNavigator}
+      />
       <Stack.Screen name="StackComponent" component={StackComponent} />
     </Stack.Navigator>
   );
