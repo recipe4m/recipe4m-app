@@ -33,3 +33,5 @@ export class ManageTimerUseCase {
     this.timers = this.timers.filter(_timer => _timer !== timer);
   }
 }
+
+export default new ManageTimerUseCase();

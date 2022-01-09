@@ -21,7 +21,7 @@ export default function BottomTabNavigator() {
   );
 
   return (
-    <Tab.Navigator tabBar={TabBar}>
+    <Tab.Navigator tabBar={TabBar} screenOptions={{ headerShown: false }}>
       <Tab.Screen name={ScreenName.ShortcutScreen} component={ShortcutScreen} />
       <Tab.Screen name={ScreenName.RecipeScreen} component={ShortcutScreen} />
       <Tab.Screen name={ScreenName.CreateScreen} component={ShortcutScreen} />

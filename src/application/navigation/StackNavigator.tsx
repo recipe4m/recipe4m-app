@@ -42,6 +42,7 @@ export default function StackNavigator() {
       <Stack.Screen
         name={ScreenName.BottomTabNavigator}
         component={BottomTabNavigator}
+        options={{ headerShown: false }}
       />
       <Stack.Screen name="StackComponent" component={StackComponent} />
     </Stack.Navigator>
