@@ -1,8 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '@reducer/counter';
+import themeReducer, { ThemeState } from '../reducer/theme';
 
-export default configureStore({
+import { configureStore } from '@reduxjs/toolkit';
+
+export interface StoreState {
+  theme: ThemeState;
+}
+
+export default configureStore<StoreState>({
   reducer: {
-    counter: counterReducer,
+    theme: themeReducer,
   },
 });

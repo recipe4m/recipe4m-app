@@ -1,11 +1,5 @@
 import BottomTabItem, { Item } from './BottomTabItem';
-import {
-  ImageBackground,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import React, { useCallback, useState } from 'react';
 
 import { EdgeInsets } from 'react-native-safe-area-context';
@@ -13,6 +7,7 @@ import { ScreenName } from '@navigation/ScreenName';
 import { TabActions } from '@react-navigation/native';
 import { BottomTabBarProps as TabBarProps } from '@react-navigation/bottom-tabs';
 import { useMemo } from 'react';
+import useTheme from '@common/hook/useTheme';
 
 interface BottomTabBarProps extends TabBarProps {
   insets: EdgeInsets;
@@ -30,14 +25,26 @@ export default function BottomTabBar({
   insets,
   navigation,
 }: BottomTabBarProps) {
+  const { theme, colors } = useTheme();
+
   const [tab, setTab] = useState<string>(BOTTOM_TAB_ITEMS[0].tab);
 
   const containerStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
       ...styles.container,
       paddingBottom: insets.bottom,
+      borderTopColor: colors.BOTTOM_TAB_BAR_BORDER,
     }),
-    [insets],
+    [insets, colors],
+  );
+
+  const backgroundStyle = useMemo<StyleProp<ViewStyle>>(
+    () => ({
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: colors.BOTTOM_TAB_BAR_BACKGROUND,
+      opacity: Platform.OS === 'android' ? 1 : theme === 'light' ? 0.97 : 0.9,
+    }),
+    [colors, theme],
   );
 
   const handlePressItem = useCallback(
@@ -51,7 +58,7 @@ export default function BottomTabBar({
 
   return (
     <View style={containerStyle}>
-      <ImageBackground style={styles.background} source={{}} blurRadius={1} />
+      <View style={backgroundStyle} />
       {BOTTOM_TAB_ITEMS.map(item => (
         <BottomTabItem
           key={item.tab}
@@ -74,12 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    borderTopColor: '#ccc',
     borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  background: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'white',
-    opacity: 0.97,
   },
 });
