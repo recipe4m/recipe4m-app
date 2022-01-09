@@ -6,5 +6,9 @@ module.exports = {
   rules: {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
+    curly: [2, 'multi-or-nest'],
+  },
+  globals: {
+    NodeJS: true,
   },
 };
