@@ -1,16 +1,16 @@
-export enum Color {
+export enum ColorPalette {
   BLACK = '#000000',
   WHITE = '#FFFFFF',
 
-  GREY_900 = '#0F0F0F',
-  GREY_800 = '#1D1D1D',
-  GREY_700 = '#444444',
-  GREY_600 = '#5D5D5D',
-  GREY_500 = '#747474',
-  GREY_400 = '#848484',
-  GREY_300 = '#ABABAB',
-  GREY_200 = '#D9D9D9',
-  GREY_100 = '#E8E9EC',
+  GRAY_900 = '#0F0F0F',
+  GRAY_800 = '#1D1D1D',
+  GRAY_700 = '#444444',
+  GRAY_600 = '#5D5D5D',
+  GRAY_500 = '#747474',
+  GRAY_400 = '#848484',
+  GRAY_300 = '#ABABAB',
+  GRAY_200 = '#D9D9D9',
+  GRAY_100 = '#E8E9EC',
 
   BROWN_900 = '#38230E',
   BROWN_800 = '#543416',
@@ -31,4 +31,14 @@ export enum Color {
   RED_300 = '#E57373',
   RED_200 = '#EF9A9A',
   RED_100 = '#FFCDD2',
+
+  ORANGE_900 = '#442003',
+  ORANGE_800 = '#663004',
+  ORANGE_700 = '#884006',
+  ORANGE_600 = '#AA5107',
+  ORANGE_500 = '#CC6109',
+  ORANGE_400 = '#EF710A',
+  ORANGE_300 = '#F58428',
+  ORANGE_200 = '#F6984A',
+  ORANGE_100 = '#F8AB6C',
 }
