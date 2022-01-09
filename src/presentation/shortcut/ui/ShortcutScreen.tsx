@@ -1,18 +1,15 @@
-import { StyleSheet, View } from 'react-native';
-
 import BottomTabView from '@common/component/BottomTabView';
+import Heading from '@common/component/Heading';
 import React from 'react';
+import { Text } from 'react-native-svg';
+import TimerCard from './component/TimerCard';
 
 export default function ShortcutScreen() {
   return (
-    <BottomTabView style={styles.container}>
-      <View />
+    <BottomTabView>
+      <Heading style={{ marginLeft: 18 }}>Shortcut</Heading>
+      <Text>Hello</Text>
+      <TimerCard />
     </BottomTabView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

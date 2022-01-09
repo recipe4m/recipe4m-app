@@ -9,7 +9,7 @@ export interface Color {
   SUB_HEADING: string;
   MEDIUM: string;
   REGULAR: string;
-  MINICAP: string;
+  MINICAPS: string;
   PLACE_HOLDER: string;
   DISABLED: string;
 
@@ -19,15 +19,17 @@ export interface Color {
   BOTTOM_TAB_BAR_BORDER: string;
   BOTTOM_TAB_LABEL: string;
   BOTTOM_TAB_LABEL_ACTIVE: string;
+
+  CARD_BORDER: string;
 }
 
 const LightDynamicColor: Color = {
   HEADING: ColorPalette.BLACK,
   TITLE: ColorPalette.BLACK,
-  SUB_HEADING: ColorPalette.BLACK,
+  SUB_HEADING: ColorPalette.GRAY_800,
   MEDIUM: ColorPalette.BLACK,
-  REGULAR: ColorPalette.GRAY_900,
-  MINICAP: ColorPalette.BLACK,
+  REGULAR: ColorPalette.GRAY_700,
+  MINICAPS: ColorPalette.BLACK,
   PLACE_HOLDER: ColorPalette.GRAY_500,
   DISABLED: ColorPalette.GRAY_300,
 
@@ -37,15 +39,17 @@ const LightDynamicColor: Color = {
   BOTTOM_TAB_BAR_BORDER: ColorPalette.GRAY_300,
   BOTTOM_TAB_LABEL: ColorPalette.GRAY_500,
   BOTTOM_TAB_LABEL_ACTIVE: ColorPalette.ORANGE_300,
+
+  CARD_BORDER: ColorPalette.GRAY_300,
 };
 
 const DarkDynamicColor: Color = {
-  HEADING: ColorPalette.BLACK,
-  TITLE: ColorPalette.BLACK,
-  SUB_HEADING: ColorPalette.BLACK,
-  MEDIUM: ColorPalette.BLACK,
-  REGULAR: ColorPalette.GRAY_900,
-  MINICAP: ColorPalette.BLACK,
+  HEADING: ColorPalette.WHITE,
+  TITLE: ColorPalette.WHITE,
+  SUB_HEADING: ColorPalette.GRAY_200,
+  MEDIUM: ColorPalette.WHITE,
+  REGULAR: ColorPalette.GRAY_300,
+  MINICAPS: ColorPalette.WHITE,
   PLACE_HOLDER: ColorPalette.GRAY_500,
   DISABLED: ColorPalette.GRAY_300,
 
@@ -55,6 +59,8 @@ const DarkDynamicColor: Color = {
   BOTTOM_TAB_BAR_BORDER: ColorPalette.GRAY_700,
   BOTTOM_TAB_LABEL: ColorPalette.GRAY_500,
   BOTTOM_TAB_LABEL_ACTIVE: ColorPalette.ORANGE_300,
+
+  CARD_BORDER: ColorPalette.GRAY_700,
 };
 
 export const DynamicColor = {
