@@ -26,7 +26,7 @@ export default function BottomTabItem({
 
   return (
     <Pressable style={styles.wrapper} onPress={handlePress}>
-      <IcShortcut width={24} height={24} />
+      <IcShortcut width={22} height={22} />
       <Text style={[styles.label, isSelected && { color: 'blue' }]}>
         {label}
       </Text>
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 48,
     height: 48,
+    marginVertical: 1,
   },
   label: {
     fontSize: 9,
