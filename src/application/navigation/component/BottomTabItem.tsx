@@ -1,17 +1,35 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
+import React, { useCallback } from 'react';
 
 import IcShortcut from '@asset/icon/ic_shortcut.svg';
-import React from 'react';
 
-interface BottomTabItemProps {
+export interface Item {
+  tab: string;
   label: string;
 }
+interface BottomTabItemProps {
+  item: Item;
+  isSelected: boolean;
+  onPress: (item: Item) => void;
+}
 
-export default function BottomTabItem({ label }: BottomTabItemProps) {
+export default function BottomTabItem({
+  item,
+  isSelected,
+  onPress,
+}: BottomTabItemProps) {
+  const { label } = item;
+
+  const handlePress = useCallback(() => {
+    onPress(item);
+  }, [item, onPress]);
+
   return (
-    <Pressable style={styles.wrapper}>
+    <Pressable style={styles.wrapper} onPress={handlePress}>
       <IcShortcut width={24} height={24} />
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, isSelected && { color: 'blue' }]}>
+        {label}
+      </Text>
     </Pressable>
   );
 }

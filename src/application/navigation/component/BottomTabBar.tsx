@@ -1,31 +1,58 @@
+import BottomTabItem, { Item } from './BottomTabItem';
+import React, { useCallback, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
-import BottomTabItem from './BottomTabItem';
 import { EdgeInsets } from 'react-native-safe-area-context';
-import React from 'react';
+import { ScreenName } from '@navigation/ScreenName';
+import { TabActions } from '@react-navigation/native';
+import { BottomTabBarProps as TabBarProps } from '@react-navigation/bottom-tabs';
 import { useMemo } from 'react';
 
-interface BottomTabBarProps {
+interface BottomTabBarProps extends TabBarProps {
   insets: EdgeInsets;
 }
 
-export default function BottomTabBar({ insets }: BottomTabBarProps) {
+const BOTTOM_TAB_ITEMS: Item[] = [
+  { tab: ScreenName.ShortcutScreen, label: 'Shortcut' },
+  { tab: ScreenName.SearchScreen, label: 'Search' },
+  { tab: ScreenName.CreateScreen, label: 'Create' },
+  { tab: ScreenName.RecipeScreen, label: 'Recipe' },
+  { tab: ScreenName.ProfileScreen, label: 'Profile' },
+];
+
+export default function BottomTabBar({
+  insets,
+  navigation,
+}: BottomTabBarProps) {
+  const [tab, setTab] = useState<string>(BOTTOM_TAB_ITEMS[0].tab);
+
   const containerStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
       ...styles.container,
-      height: 50 + insets.bottom,
       paddingBottom: insets.bottom,
     }),
     [insets],
   );
 
+  const handlePressItem = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    ({ tab }: Item) => {
+      navigation.dispatch(TabActions.jumpTo(tab));
+      setTab(tab);
+    },
+    [navigation],
+  );
+
   return (
     <View style={containerStyle}>
-      <BottomTabItem label="Home" />
-      <BottomTabItem label="Recipe" />
-      <BottomTabItem label="Create" />
-      <BottomTabItem label="Search" />
-      <BottomTabItem label="Profile" />
+      {BOTTOM_TAB_ITEMS.map(item => (
+        <BottomTabItem
+          key={item.tab}
+          item={item}
+          isSelected={tab === item.tab}
+          onPress={handlePressItem}
+        />
+      ))}
     </View>
   );
 }
