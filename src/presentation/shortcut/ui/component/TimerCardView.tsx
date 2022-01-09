@@ -2,7 +2,6 @@ import React, { PropsWithChildren, useMemo } from 'react';
 import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
-import useTheme from '@common/hook/useTheme';
 
 interface TimerCardView extends ViewProps {}
 
@@ -11,8 +10,6 @@ export default function TimerCardView({
   style,
   ...props
 }: PropsWithChildren<TimerCardView>) {
-  const { colors } = useTheme();
-
   const timerCardViewStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
       margin: 18,

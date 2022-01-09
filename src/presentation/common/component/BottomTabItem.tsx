@@ -1,8 +1,10 @@
 import { Pressable, StyleSheet } from 'react-native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import BottomTabItemLabel from './BottomTabItemLabel';
-import IcShortcut from '@asset/icon/ic_shortcut.svg';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { ScreenName } from '@navigation/ScreenName';
+import useTheme from '@common/hook/useTheme';
 
 export interface Item {
   tab: string;
@@ -19,7 +21,14 @@ export default function BottomTabItem({
   isSelected,
   onPress,
 }: BottomTabItemProps) {
-  const { label } = item;
+  const { colors } = useTheme();
+  const { tab, label } = item;
+
+  const color = useMemo(
+    () =>
+      isSelected ? colors.BOTTOM_TAB_LABEL_ACTIVE : colors.BOTTOM_TAB_LABEL,
+    [colors, isSelected],
+  );
 
   const handlePress = useCallback(() => {
     onPress(item);
@@ -27,7 +36,21 @@ export default function BottomTabItem({
 
   return (
     <Pressable style={styles.wrapper} onPress={handlePress}>
-      <IcShortcut width={22} height={22} />
+      {tab === ScreenName.ShortcutScreen && (
+        <Icon name="whatshot" size={22} color={color} />
+      )}
+      {tab === ScreenName.SearchScreen && (
+        <Icon name="search" size={22} color={color} />
+      )}
+      {tab === ScreenName.CreateScreen && (
+        <Icon name="add-circle-outline" size={22} color={color} />
+      )}
+      {tab === ScreenName.RecipeScreen && (
+        <Icon name="library-books" size={22} color={color} />
+      )}
+      {tab === ScreenName.ProfileScreen && (
+        <Icon name="person" size={22} color={color} />
+      )}
       <BottomTabItemLabel isSelected={isSelected}>{label}</BottomTabItemLabel>
     </Pressable>
   );

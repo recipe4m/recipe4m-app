@@ -45,7 +45,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = recipe4m/main.m; sourceTree = "<group>"; };
 		1D0AE47A65C8663E3B452821 /* Pods-recipe4m-recipe4mTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recipe4m-recipe4mTests.release.xcconfig"; path = "Target Support Files/Pods-recipe4m-recipe4mTests/Pods-recipe4m-recipe4mTests.release.xcconfig"; sourceTree = "<group>"; };
 		32CBCD052789429B007044F2 /* recipe4m-dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "recipe4m-dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		32CBCD062789429B007044F2 /* recipe4m copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "recipe4m copy-Info.plist"; path = "/Users/fine/workspace/recipe4m/recipe4m-app/ios/recipe4m copy-Info.plist"; sourceTree = "<absolute>"; };
+		32CBCD062789429B007044F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/fine/workspace/recipe4m/recipe4m-app/ios/Info.plist"; sourceTree = "<absolute>"; };
 		62B4E9B49DA0B530F7255256 /* Pods-recipe4m-dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recipe4m-dev.debug.xcconfig"; path = "Target Support Files/Pods-recipe4m-dev/Pods-recipe4m-dev.debug.xcconfig"; sourceTree = "<group>"; };
 		6423831EA8574132BED9D8CC /* libPods-recipe4m.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-recipe4m.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-recipe4m-recipe4mTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-recipe4m-recipe4mTests.debug.xcconfig"; path = "Target Support Files/Pods-recipe4m-recipe4mTests/Pods-recipe4m-recipe4mTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -127,6 +127,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		320A9D73278B449E003296A6 /* recipe4m-dev */ = {
+			isa = PBXGroup;
+			children = (
+				32CBCD062789429B007044F2 /* Info.plist */,
+			);
+			path = "recipe4m-dev";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,13 +145,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				320A9D73278B449E003296A6 /* recipe4m-dev */,
 				13B07FAE1A68108700A75B9A /* recipe4m */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* recipe4mTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E233CBF5F47BEE60B243DCF8 /* Pods */,
-				32CBCD062789429B007044F2 /* recipe4m copy-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -690,7 +698,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "recipe4m copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -715,7 +723,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "recipe4m copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
