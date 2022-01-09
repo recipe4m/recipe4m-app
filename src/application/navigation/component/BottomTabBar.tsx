@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 import BottomTabItem from './BottomTabItem';
 import { EdgeInsets } from 'react-native-safe-area-context';
@@ -21,7 +21,7 @@ export default function BottomTabBar({ insets }: BottomTabBarProps) {
 
   return (
     <View style={containerStyle}>
-      <BottomTabItem label="Shortcut" />
+      <BottomTabItem label="Home" />
       <BottomTabItem label="Recipe" />
       <BottomTabItem label="Create" />
       <BottomTabItem label="Search" />

@@ -10,7 +10,7 @@ interface BottomTabItemProps {
 export default function BottomTabItem({ label }: BottomTabItemProps) {
   return (
     <Pressable style={styles.wrapper}>
-      <IcShortcut width={26} height={26} />
+      <IcShortcut width={24} height={24} />
       <Text style={styles.label}>{label}</Text>
     </Pressable>
   );
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 9,
     color: '#444',
-    marginTop: 4,
+    marginTop: 3,
   },
 });

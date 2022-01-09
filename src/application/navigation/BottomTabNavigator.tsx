@@ -1,8 +1,4 @@
 import { Pressable, Text, View } from 'react-native';
-import {
-  useSafeAreaInsets,
-  withSafeAreaInsets,
-} from 'react-native-safe-area-context';
 
 import BottomTabBar from './component/BottomTabBar';
 import React from 'react';
@@ -11,6 +7,7 @@ import ShortcutScreen from '@presentation/shortcut/ui/ShortcutScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
