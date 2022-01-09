@@ -21,7 +21,7 @@ module.exports = {
           '@reducer': './src/application/reducer',
           '@navigation': './src/application/navigation',
           '@application': './src/application',
-          '@presentation/common': './src/presentation/common',
+          '@common': './src/presentation/common',
           '@presentation': './src/presentation',
         },
       },

@@ -1,30 +1,16 @@
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
+import BottomTabView from '@common/component/BottomTabView';
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ShortcutScreen() {
-  const offset = useSharedValue(0);
-
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: offset.value * 255 }],
-    };
-  });
-
   return (
-    <SafeAreaView style={styles.container}>
-      <Animated.View style={[animatedStyles]}>
-        <Animated.Text>Animated Text</Animated.Text>
-      </Animated.View>
-      <Pressable onPress={() => (offset.value = Math.random())}>
-        <Text>ShortcutScreen</Text>
-      </Pressable>
-    </SafeAreaView>
+    <BottomTabView style={styles.container}>
+      <Image
+        style={{ width: '100%', height: 2000 }}
+        source={{ uri: 'https://pbs.twimg.com/media/EFHNcJQUcAI_acX.jpg' }}
+      />
+    </BottomTabView>
   );
 }
 

@@ -1,6 +1,12 @@
 import BottomTabItem, { Item } from './BottomTabItem';
+import {
+  ImageBackground,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 import React, { useCallback, useState } from 'react';
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 import { EdgeInsets } from 'react-native-safe-area-context';
 import { ScreenName } from '@navigation/ScreenName';
@@ -45,6 +51,7 @@ export default function BottomTabBar({
 
   return (
     <View style={containerStyle}>
+      <ImageBackground style={styles.background} source={{}} blurRadius={1} />
       {BOTTOM_TAB_ITEMS.map(item => (
         <BottomTabItem
           key={item.tab}
@@ -59,11 +66,20 @@ export default function BottomTabBar({
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
     borderTopColor: '#ccc',
     borderTopWidth: StyleSheet.hairlineWidth,
+  },
+  background: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'white',
+    opacity: 0.97,
   },
 });
