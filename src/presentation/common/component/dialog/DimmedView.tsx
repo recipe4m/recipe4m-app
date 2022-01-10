@@ -1,68 +1,57 @@
 import { ColorPalette } from '@style/ColorPalette';
 import React, {
-  forwardRef,
-  MutableRefObject,
   PropsWithChildren,
   useEffect,
+  useCallback,
+  useRef,
 } from 'react';
-import { useState } from 'react';
-import { useRef } from 'react';
-import { useCallback } from 'react';
-import { ForwardedRef } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withTiming,
 } from 'react-native-reanimated';
 
-export interface DimmedViewRef {
-  open: () => void;
-  close: () => void;
+export interface DimmedViewProps {
+  visible: boolean;
+  onInvisible: () => void;
 }
 
-export interface DimmedViewProps {}
-
-function DimmedView(
-  { children }: PropsWithChildren<DimmedViewProps>,
-  ref: ForwardedRef<DimmedViewRef>,
-) {
-  const [visible, setVisible] = useState<boolean>(false);
+export default function DimmedView({
+  children,
+  visible,
+  onInvisible,
+}: PropsWithChildren<DimmedViewProps>) {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const opacity = useSharedValue<number>(0);
 
-  const animatedStyles = useAnimatedStyle(() => ({
+  const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value * 0.4,
   }));
 
-  const open = useCallback(() => {
-    setVisible(true);
-  }, []);
-
-  const close = useCallback(() => {
+  const handlePressClose = useCallback(() => {
     opacity.value = withTiming(0, { duration: 300 });
-    setTimeout(() => {
-      setVisible(false);
+    timeoutRef.current = setTimeout(() => {
+      onInvisible();
     }, 300);
-  }, [opacity]);
+  }, [onInvisible, opacity]);
 
   useEffect(() => {
-    if (visible) opacity.value = withTiming(1, { duration: 300 });
-  }, [opacity, visible]);
-
-  useEffect(() => {
-    if ((ref as MutableRefObject<DimmedViewRef | null>)?.current === null) {
-      (ref as MutableRefObject<DimmedViewRef>).current = {
-        open,
-        close,
-      };
+    if (visible) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      opacity.value = withDelay(100, withTiming(1, { duration: 300 }));
     }
-  }, [close, open, ref]);
+  }, [onInvisible, opacity, visible]);
 
-  if (!visible) return <></>;
+  if (!visible) return null;
 
   return (
-    <Pressable style={StyleSheet.absoluteFillObject} onPress={close}>
-      <Animated.View style={[styles.dimmed, animatedStyles]} />
+    <Pressable style={StyleSheet.absoluteFillObject} onPress={handlePressClose}>
+      <Animated.View style={[styles.dimmed, animatedStyle]} />
       {children}
     </Pressable>
   );
@@ -74,7 +63,3 @@ const styles = StyleSheet.create({
     backgroundColor: ColorPalette.BLACK,
   },
 });
-
-export default forwardRef<DimmedViewRef, PropsWithChildren<DimmedViewProps>>(
-  DimmedView,
-);

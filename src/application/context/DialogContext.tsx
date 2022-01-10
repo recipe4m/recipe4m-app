@@ -1,5 +1,5 @@
-import DimmedView, { DimmedViewRef } from '@common/component/dialog/DimmedView';
-import TimerDialog from '@common/component/TimerDialog';
+import Dialog, { DialogRef } from '@common/component/dialog/Dialog';
+import { TimerDialogOptions } from '@common/component/dialog/TimerDialog';
 import React, {
   createContext,
   PropsWithChildren,
@@ -7,21 +7,16 @@ import React, {
   useContext,
 } from 'react';
 import { useRef } from 'react';
-import { Text } from 'react-native';
 
-interface DialogProviderProps {}
-
-export type OpenTimer = (timeout: number) => void;
+export interface DialogProviderProps {}
 
 export interface DialogContextValue {
-  openTimer: OpenTimer;
+  openTimer: (options: TimerDialogOptions) => void;
 }
 
 export const initialValue: DialogContextValue = {
   openTimer: () => {},
 };
-
-export interface DialogStateRef {}
 
 export const DialogContext = createContext<DialogContextValue>(initialValue);
 
@@ -32,22 +27,16 @@ export function useDialog() {
 export function DialogProvider({
   children,
 }: PropsWithChildren<DialogProviderProps>) {
-  const dialogStateRef = useRef<DialogStateRef>({});
-  const dimmedViewRef = useRef<DimmedViewRef>(null);
+  const dialogRef = useRef<DialogRef>(null);
 
-  const openTimer: OpenTimer = useCallback(
-    (timeout: number = 4 * 60 * 1000) => {
-      if (dimmedViewRef.current) dimmedViewRef.current.open();
-    },
-    [dimmedViewRef],
-  );
+  const openTimer = useCallback((options: TimerDialogOptions) => {
+    dialogRef.current?.open(options);
+  }, []);
 
   return (
     <DialogContext.Provider value={{ openTimer }}>
       {children}
-      <DimmedView ref={dimmedViewRef}>
-        <TimerDialog />
-      </DimmedView>
+      <Dialog ref={dialogRef} />
     </DialogContext.Provider>
   );
 }

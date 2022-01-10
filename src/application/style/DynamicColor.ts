@@ -22,7 +22,7 @@ export interface Color {
   BOTTOM_TAB_ICON: string;
   BOTTOM_TAB_ICON_ACTIVE: string;
 
-  CARD_BORDER: string;
+  DIALOG_BACKGROUND: string;
 }
 
 const LightDynamicColor: Color = {
@@ -44,7 +44,7 @@ const LightDynamicColor: Color = {
   BOTTOM_TAB_ICON: ColorPalette.GRAY_500,
   BOTTOM_TAB_ICON_ACTIVE: ColorPalette.ORANGE_300,
 
-  CARD_BORDER: ColorPalette.GRAY_300,
+  DIALOG_BACKGROUND: ColorPalette.WHITE,
 };
 
 const DarkDynamicColor: Color = {
@@ -66,7 +66,7 @@ const DarkDynamicColor: Color = {
   BOTTOM_TAB_ICON: ColorPalette.GRAY_500,
   BOTTOM_TAB_ICON_ACTIVE: ColorPalette.ORANGE_300,
 
-  CARD_BORDER: ColorPalette.GRAY_700,
+  DIALOG_BACKGROUND: ColorPalette.BLACK,
 };
 
 export const DynamicColor = {
