@@ -9,6 +9,6 @@ export enum ScreenName {
   ShortcutScreen = 'ShortcutScreen',
   RecipeScreen = 'RecipeScreen',
   CreateScreen = 'CreateScreen',
-  SearchScreen = 'SearchScreen',
+  NoteScreen = 'NoteScreen',
   ProfileScreen = 'ProfileScreen',
 }

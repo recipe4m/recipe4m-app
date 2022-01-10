@@ -2,13 +2,14 @@ import { Pressable, StyleSheet } from 'react-native';
 import React, { useCallback, useMemo } from 'react';
 
 import BottomTabItemLabel from './BottomTabItemLabel';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { ScreenName } from '@navigation/ScreenName';
 import useTheme from '@common/hook/useTheme';
 
 export interface Item {
   tab: string;
   label: string;
+  iconName: string;
 }
 interface BottomTabItemProps {
   item: Item;
@@ -22,7 +23,7 @@ export default function BottomTabItem({
   onPress,
 }: BottomTabItemProps) {
   const { colors } = useTheme();
-  const { tab, label } = item;
+  const { label, iconName } = item;
 
   const color = useMemo(
     () =>
@@ -36,21 +37,7 @@ export default function BottomTabItem({
 
   return (
     <Pressable style={styles.wrapper} onPress={handlePress}>
-      {tab === ScreenName.ShortcutScreen && (
-        <Icon name="whatshot" size={22} color={color} />
-      )}
-      {tab === ScreenName.SearchScreen && (
-        <Icon name="search" size={22} color={color} />
-      )}
-      {tab === ScreenName.CreateScreen && (
-        <Icon name="add-circle-outline" size={22} color={color} />
-      )}
-      {tab === ScreenName.RecipeScreen && (
-        <Icon name="library-books" size={22} color={color} />
-      )}
-      {tab === ScreenName.ProfileScreen && (
-        <Icon name="person" size={22} color={color} />
-      )}
+      <MaterialIcon name={iconName} size={22} color={color} />
       <BottomTabItemLabel isSelected={isSelected}>{label}</BottomTabItemLabel>
     </Pressable>
   );

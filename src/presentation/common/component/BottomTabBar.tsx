@@ -14,11 +14,15 @@ interface BottomTabBarProps extends TabBarProps {
 }
 
 const BOTTOM_TAB_ITEMS: Item[] = [
-  { tab: ScreenName.ShortcutScreen, label: 'Shortcut' },
-  { tab: ScreenName.SearchScreen, label: 'Search' },
-  { tab: ScreenName.CreateScreen, label: 'Create' },
-  { tab: ScreenName.RecipeScreen, label: 'Recipe' },
-  { tab: ScreenName.ProfileScreen, label: 'Profile' },
+  { tab: ScreenName.ShortcutScreen, label: 'Shortcut', iconName: 'whatshot' },
+  { tab: ScreenName.RecipeScreen, label: 'Recipe', iconName: 'tag' },
+  {
+    tab: ScreenName.CreateScreen,
+    label: 'Create',
+    iconName: 'add-circle-outline',
+  },
+  { tab: ScreenName.NoteScreen, label: 'Note', iconName: 'view-sidebar' },
+  { tab: ScreenName.ProfileScreen, label: 'Profile', iconName: 'person' },
 ];
 
 export default function BottomTabBar({

@@ -25,7 +25,7 @@ export default function BottomTabNavigator() {
       <Tab.Screen name={ScreenName.ShortcutScreen} component={ShortcutScreen} />
       <Tab.Screen name={ScreenName.RecipeScreen} component={ShortcutScreen} />
       <Tab.Screen name={ScreenName.CreateScreen} component={ShortcutScreen} />
-      <Tab.Screen name={ScreenName.SearchScreen} component={ShortcutScreen} />
+      <Tab.Screen name={ScreenName.NoteScreen} component={ShortcutScreen} />
       <Tab.Screen name={ScreenName.ProfileScreen} component={ShortcutScreen} />
     </Tab.Navigator>
   );
