@@ -1,9 +1,14 @@
 import React, { PropsWithChildren, useMemo } from 'react';
-import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
-
+import {
+  StyleProp,
+  ImageBackground,
+  ViewStyle,
+  ImageBackgroundProps,
+  StyleSheet,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-interface TimerCardView extends ViewProps {}
+interface TimerCardView extends ImageBackgroundProps {}
 
 export default function TimerCardView({
   children,
@@ -13,17 +18,29 @@ export default function TimerCardView({
   const timerCardViewStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
       margin: 18,
+      padding: 18,
       borderRadius: 18,
+      height: 220,
       overflow: 'hidden',
     }),
     [],
   );
 
   return (
-    <View {...props} style={[timerCardViewStyle, style]}>
-      <LinearGradient colors={['#FAD7A1', '#E96D71']} style={{ padding: 18 }}>
-        {children}
-      </LinearGradient>
-    </View>
+    <ImageBackground {...props} style={[timerCardViewStyle, style]}>
+      <LinearGradient
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 0, y: 1 }}
+        colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)']}
+        style={styles.background}
+      />
+      {children}
+    </ImageBackground>
   );
 }
+
+const styles = StyleSheet.create({
+  background: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
