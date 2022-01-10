@@ -1,7 +1,7 @@
-import Heading from '@common/component/Heading';
-import Medium from '@common/component/Medium';
+import Heading from '@common/component/text/Heading';
+import Medium from '@common/component/text/Medium';
 import React from 'react';
-import Regular from '@common/component/Regular';
+import Regular from '@common/component/text/Regular';
 import TimerCardView from './TimerCardView';
 import { StyleSheet, View } from 'react-native';
 import { ColorPalette } from '@style/ColorPalette';

@@ -3,7 +3,7 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 
-import BottomTabBar from '../../presentation/common/component/BottomTabBar';
+import BottomTabBar from '../../presentation/common/component/bottom-tab/BottomTabBar';
 import React from 'react';
 import { ScreenName } from './ScreenName';
 import ShortcutScreen from '@presentation/shortcut/ui/ShortcutScreen';

@@ -1,5 +1,5 @@
-import BottomTabView from '@common/component/BottomTabView';
-import Heading from '@common/component/Heading';
+import BottomTabView from '@common/component/bottom-tab/BottomTabView';
+import Heading from '@common/component/text/Heading';
 import React from 'react';
 import { Text } from 'react-native-svg';
 import TimerCard from './component/TimerCard';
