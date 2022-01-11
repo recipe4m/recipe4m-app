@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { ColorPalette } from '@style/ColorPalette';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import DialogView from './DialogView';
 import { DefaultOptions } from './interface';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Visible } from './DimmedView';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { ScrollView } from 'react-native-gesture-handler';
 import FullButton from '../button/FullButton';
 
@@ -37,7 +41,7 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         style={styles.icon}
         name="timer"
         size={30}
-        color={ColorPalette.BLACK}
+        color={ColorPalette.ORANGE_100}
       />
       <View style={styles.timeWrapper}>
         <Animated.ScrollView
@@ -56,7 +60,7 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         </Animated.ScrollView>
         <Text>:</Text>
         <FlatList
-          style={{ height: '100%', width: 50, borderWidth: 1 }}
+          style={{ height: '100%', width: 50 }}
           data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}
           pagingEnabled
           renderItem={({ item }) => (
@@ -68,7 +72,7 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         />
         <Text>:</Text>
         <FlatList
-          style={{ height: '100%', width: 50, borderWidth: 1 }}
+          style={{ height: '100%', width: 50 }}
           data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}
           renderItem={({ item }) => (
             <View onStartShouldSetResponder={() => true}>

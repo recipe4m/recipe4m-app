@@ -37,6 +37,8 @@ const initialLayout: Layout = { x: 0, y: 0, width: 0, height: 0 };
 const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground);
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 export default function DialogView({
   children,
   visible,
@@ -58,7 +60,7 @@ export default function DialogView({
       position: 'absolute',
       top: 0,
       left: 0,
-      borderRadius: 10,
+      borderRadius: 18,
       overflow: 'hidden',
       backgroundColor: colors.DIALOG_BACKGROUND,
     }),
@@ -72,7 +74,11 @@ export default function DialogView({
   }));
 
   const animatedImageBackgroundStyle = useAnimatedStyle(() => ({
-    opacity: 1.03 - opacity.value,
+    opacity: 1.0 - opacity.value,
+  }));
+
+  const animatedContentWrapperStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
   }));
 
   const handleLayout = useCallback(
@@ -103,13 +109,11 @@ export default function DialogView({
     <Animated.View
       {...props}
       style={[styles.container, dialogViewStyle, animatedStyle, style]}>
-      <View
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{
-          ...StyleSheet.absoluteFillObject,
-          height: 13,
-          backgroundColor: colors.DIALOG_BORDER,
-        }}
+      <LinearGradient
+        style={styles.headBorder}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={[ColorPalette.ORANGE_100, ColorPalette.ORANGE_50]}
       />
       {source && (
         <AnimatedImageBackground
@@ -117,9 +121,11 @@ export default function DialogView({
           source={source}
         />
       )}
-      <Pressable style={styles.container} onLayout={handleLayout}>
+      <AnimatedPressable
+        style={[styles.container, animatedContentWrapperStyle]}
+        onLayout={handleLayout}>
         {children}
-      </Pressable>
+      </AnimatedPressable>
     </Animated.View>
   );
 }
@@ -137,5 +143,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 16.0,
     elevation: 5,
+  },
+  headBorder: {
+    ...StyleSheet.absoluteFillObject,
+    height: 13,
   },
 });
