@@ -1,13 +1,14 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import React, { useMemo, useState } from 'react';
-
-import Animated from 'react-native-reanimated';
 /* eslint-disable @typescript-eslint/no-shadow */
+import React, { useMemo, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+
 import { ColorPalette } from '@style/ColorPalette';
 import { DefaultOptions } from './interface';
 import DialogView from './DialogView';
 import FullButton from '../button/FullButton';
+import Heading from '../text/Heading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import TimeList from './TimeList';
 import { Visible } from './DimmedView';
 
 export interface TimerDialogOptions extends DefaultOptions {
@@ -39,44 +40,12 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         size={30}
         color={ColorPalette.ORANGE_100}
       />
-      <View style={styles.timeWrapper}>
-        <Animated.ScrollView
-          onScroll={() => console.log('here')}
-          pagingEnabled
-          scrollEventThrottle={16}>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(
-            time => (
-              <View onStartShouldSetResponder={() => true}>
-                <Text key={time} style={{ flex: 1, height: 40 }}>
-                  {time}
-                </Text>
-              </View>
-            ),
-          )}
-        </Animated.ScrollView>
-        <Text>:</Text>
-        <FlatList
-          style={{ height: '100%', width: 50 }}
-          data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}
-          pagingEnabled
-          renderItem={({ item }) => (
-            <View onStartShouldSetResponder={() => true}>
-              <Text>{item}</Text>
-            </View>
-          )}
-          scrollEnabled
-        />
-        <Text>:</Text>
-        <FlatList
-          style={{ height: '100%', width: 50 }}
-          data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}
-          renderItem={({ item }) => (
-            <View onStartShouldSetResponder={() => true}>
-              <Text>{item}</Text>
-            </View>
-          )}
-          scrollEnabled
-        />
+      <View style={styles.timeListWrapper}>
+        <TimeList type="hour" />
+        <Heading>:</Heading>
+        <TimeList type="minute" />
+        <Heading>:</Heading>
+        <TimeList type="second" />
       </View>
       <FullButton>Start</FullButton>
     </DialogView>
@@ -89,13 +58,12 @@ const styles = StyleSheet.create({
     top: 18,
     left: 18,
   },
-  timeWrapper: {
+  timeListWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 50,
-    alignSelf: 'center',
-    height: 100,
     padding: 18,
   },
 });
