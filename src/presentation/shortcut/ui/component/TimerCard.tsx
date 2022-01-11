@@ -27,12 +27,17 @@ export default function TimerCard() {
 
   const handlePressCard = useCallback(() => {
     timerCardRef.current?.measureInWindow((x, y, width, height) => {
+      const handleClose = () => {
+        opacity.value = 1;
+      };
+
       opacity.value = withDelay(100, withTiming(0, { duration: 0 }));
       openTimer({
         type: 'timer',
         time: 4 * 60 * 1000,
         layout: { x, y, width, height },
         source: require('@asset/image/ramen.jpg'),
+        onClose: handleClose,
       });
     });
   }, [opacity, openTimer]);

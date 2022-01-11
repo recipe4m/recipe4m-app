@@ -1,10 +1,5 @@
 import { ColorPalette } from '@style/ColorPalette';
-import React, {
-  PropsWithChildren,
-  useEffect,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -13,14 +8,18 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+export type Visible = 'visible' | 'invisible' | 'disappearing';
+
 export interface DimmedViewProps {
-  visible: boolean;
+  visible: Visible;
+  onPress: () => void;
   onInvisible: () => void;
 }
 
 export default function DimmedView({
   children,
   visible,
+  onPress,
   onInvisible,
 }: PropsWithChildren<DimmedViewProps>) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -30,27 +29,25 @@ export default function DimmedView({
     opacity: opacity.value * 0.4,
   }));
 
-  const handlePressClose = useCallback(() => {
-    opacity.value = withTiming(0, { duration: 300 });
-    timeoutRef.current = setTimeout(() => {
-      onInvisible();
-    }, 300);
-  }, [onInvisible, opacity]);
-
   useEffect(() => {
-    if (visible) {
+    if (visible === 'visible') {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
       opacity.value = withDelay(100, withTiming(1, { duration: 300 }));
+    } else if (visible === 'disappearing') {
+      opacity.value = withTiming(0, { duration: 300 });
+      timeoutRef.current = setTimeout(() => {
+        onInvisible();
+      }, 300);
     }
   }, [onInvisible, opacity, visible]);
 
-  if (!visible) return null;
+  if (visible === 'invisible') return null;
 
   return (
-    <Pressable style={StyleSheet.absoluteFillObject} onPress={handlePressClose}>
+    <Pressable style={StyleSheet.absoluteFillObject} onPress={onPress}>
       <Animated.View style={[styles.dimmed, animatedStyle]} />
       {children}
     </Pressable>

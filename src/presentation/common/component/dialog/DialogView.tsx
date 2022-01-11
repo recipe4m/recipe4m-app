@@ -1,5 +1,10 @@
 import useTheme from '@common/hook/useTheme';
-import React, { PropsWithChildren, useCallback, useMemo } from 'react';
+import React, {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -17,9 +22,11 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
+import { Visible } from './DimmedView';
 import { Layout } from './interface';
 
 interface DialogViewProps extends ViewProps {
+  visible: Visible;
   layout?: Layout;
   source?: ImageSourcePropType;
 }
@@ -31,6 +38,7 @@ const AnimatedImageBackground =
 
 export default function DialogView({
   children,
+  visible,
   layout = initialLayout,
   source,
   style,
@@ -64,7 +72,7 @@ export default function DialogView({
   }));
 
   const animatedImageBackgroundStyle = useAnimatedStyle(() => ({
-    opacity: 1.1 - opacity.value,
+    opacity: 1.05 - opacity.value,
   }));
 
   const handleLayout = useCallback(
@@ -79,6 +87,16 @@ export default function DialogView({
     },
     [height, opacity, y],
   );
+
+  useEffect(() => {
+    if (visible === 'disappearing') {
+      opacity.value = withDelay(50, withTiming(0, { duration: 250 }));
+      y.value = withTiming(layout.y, {
+        duration: 300,
+      });
+      height.value = withTiming(layout.height, { duration: 300 });
+    }
+  }, [height, layout.height, layout.y, opacity, visible, y]);
 
   return (
     <Animated.View

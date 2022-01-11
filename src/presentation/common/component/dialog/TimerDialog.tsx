@@ -1,26 +1,23 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { ColorPalette } from '@style/ColorPalette';
-import React, { useEffect, useMemo, useState } from 'react';
-import Animated, { useSharedValue, withTiming } from 'react-native-reanimated';
+import React, { useMemo, useState } from 'react';
 import DialogView from './DialogView';
 import { DefaultOptions } from './interface';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StyleSheet } from 'react-native';
+import { Visible } from './DimmedView';
 
 export interface TimerDialogOptions extends DefaultOptions {
   time: number;
 }
 
 interface TimerDialogProps {
+  visible: Visible;
   options: TimerDialogOptions;
 }
 
-const AnimatedIcon = Animated.createAnimatedComponent(Icon);
-
-export default function TimerDialog({ options }: TimerDialogProps) {
+export default function TimerDialog({ visible, options }: TimerDialogProps) {
   const [time, setTime] = useState<number>(options.time);
-
-  const size = useSharedValue<number>(30);
 
   const { h, m, s } = useMemo(() => {
     let remain = time / 1000;
@@ -31,29 +28,23 @@ export default function TimerDialog({ options }: TimerDialogProps) {
     return { h, m, s };
   }, [time]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      size.value = withTiming(100, { duration: 300 });
-    }, 100);
-  }, []);
-
   return (
-    <DialogView layout={options.layout} source={options.source}>
-      <Animated.View style={[styles.iconWrapper]}>
-        <AnimatedIcon
-          name="timer"
-          size={size.value}
-          color={ColorPalette.WHITE}
-        />
-      </Animated.View>
-      <Animated.Text
-        style={styles.timerWrapper}>{`${h}:${m}:${s}`}</Animated.Text>
+    <DialogView
+      visible={visible}
+      layout={options.layout}
+      source={options.source}>
+      <Icon
+        style={styles.icon}
+        name="timer"
+        size={30}
+        color={ColorPalette.BLACK}
+      />
     </DialogView>
   );
 }
 
 const styles = StyleSheet.create({
-  iconWrapper: {
+  icon: {
     position: 'absolute',
     top: 18,
     left: 18,

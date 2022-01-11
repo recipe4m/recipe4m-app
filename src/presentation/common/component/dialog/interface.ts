@@ -11,4 +11,5 @@ export interface DefaultOptions {
   type?: 'timer';
   layout?: Layout;
   source?: ImageSourcePropType;
+  onClose?: () => void;
 }

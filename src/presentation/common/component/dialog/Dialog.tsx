@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import DimmedView from './DimmedView';
+import DimmedView, { Visible } from './DimmedView';
 import { DefaultOptions } from './interface';
 import TimerDialog, { TimerDialogOptions } from './TimerDialog';
 
@@ -19,18 +19,23 @@ export interface DialogRef {
 }
 
 function Dialog(props: DialogProps, ref: ForwardedRef<DialogRef>) {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<Visible>('invisible');
   const [options, setOptions] = useState<DialogOptions>({});
   const { type } = options;
 
-  const handleInvisible = useCallback(() => {
-    setVisible(false);
+  const handlePressDimmed = useCallback(() => {
+    setVisible('disappearing');
   }, []);
+
+  const handleInvisible = useCallback(() => {
+    if (options.onClose) options.onClose();
+    setVisible('invisible');
+  }, [options]);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const open = useCallback((options: DialogOptions) => {
     setOptions(options);
-    setVisible(true);
+    setVisible('visible');
   }, []);
 
   useEffect(() => {
@@ -41,12 +46,18 @@ function Dialog(props: DialogProps, ref: ForwardedRef<DialogRef>) {
     }
   }, [open, ref]);
 
-  if (!visible) return null;
+  if (visible === 'invisible') return null;
 
   return (
-    <DimmedView visible={visible} onInvisible={handleInvisible}>
+    <DimmedView
+      visible={visible}
+      onPress={handlePressDimmed}
+      onInvisible={handleInvisible}>
       {type === 'timer' && (
-        <TimerDialog options={options as TimerDialogOptions} />
+        <TimerDialog
+          visible={visible}
+          options={options as TimerDialogOptions}
+        />
       )}
     </DimmedView>
   );
