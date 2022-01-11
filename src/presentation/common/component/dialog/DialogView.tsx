@@ -1,10 +1,12 @@
 import useTheme from '@common/hook/useTheme';
+import { ColorPalette } from '@style/ColorPalette';
 import React, {
   PropsWithChildren,
   useCallback,
   useEffect,
   useMemo,
 } from 'react';
+import { View } from 'react-native';
 import {
   Dimensions,
   ImageBackground,
@@ -15,6 +17,7 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -55,7 +58,7 @@ export default function DialogView({
       position: 'absolute',
       top: 0,
       left: 0,
-      borderRadius: 18,
+      borderRadius: 10,
       overflow: 'hidden',
       backgroundColor: colors.DIALOG_BACKGROUND,
     }),
@@ -69,7 +72,7 @@ export default function DialogView({
   }));
 
   const animatedImageBackgroundStyle = useAnimatedStyle(() => ({
-    opacity: 1.05 - opacity.value,
+    opacity: 1.03 - opacity.value,
   }));
 
   const handleLayout = useCallback(
@@ -100,6 +103,14 @@ export default function DialogView({
     <Animated.View
       {...props}
       style={[styles.container, dialogViewStyle, animatedStyle, style]}>
+      <View
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          ...StyleSheet.absoluteFillObject,
+          height: 13,
+          backgroundColor: colors.DIALOG_BORDER,
+        }}
+      />
       {source && (
         <AnimatedImageBackground
           style={[StyleSheet.absoluteFillObject, animatedImageBackgroundStyle]}
@@ -121,10 +132,10 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 12,
+      height: 4,
     },
-    shadowOpacity: 0.58,
+    shadowOpacity: 0.25,
     shadowRadius: 16.0,
-    elevation: 24,
+    elevation: 5,
   },
 });

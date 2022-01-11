@@ -4,8 +4,11 @@ import React, { useMemo, useState } from 'react';
 import DialogView from './DialogView';
 import { DefaultOptions } from './interface';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { StyleSheet } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Visible } from './DimmedView';
+import Animated from 'react-native-reanimated';
+import { ScrollView } from 'react-native-gesture-handler';
+import FullButton from '../button/FullButton';
 
 export interface TimerDialogOptions extends DefaultOptions {
   time: number;
@@ -36,6 +39,46 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         size={30}
         color={ColorPalette.BLACK}
       />
+      <View style={styles.timeWrapper}>
+        <Animated.ScrollView
+          onScroll={() => console.log('here')}
+          pagingEnabled
+          scrollEventThrottle={16}>
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(
+            time => (
+              <View onStartShouldSetResponder={() => true}>
+                <Text key={time} style={{ flex: 1, height: 40 }}>
+                  {time}
+                </Text>
+              </View>
+            ),
+          )}
+        </Animated.ScrollView>
+        <Text>:</Text>
+        <FlatList
+          style={{ height: '100%', width: 50, borderWidth: 1 }}
+          data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}
+          pagingEnabled
+          renderItem={({ item }) => (
+            <View onStartShouldSetResponder={() => true}>
+              <Text>{item}</Text>
+            </View>
+          )}
+          scrollEnabled
+        />
+        <Text>:</Text>
+        <FlatList
+          style={{ height: '100%', width: 50, borderWidth: 1 }}
+          data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}
+          renderItem={({ item }) => (
+            <View onStartShouldSetResponder={() => true}>
+              <Text>{item}</Text>
+            </View>
+          )}
+          scrollEnabled
+        />
+      </View>
+      <FullButton>Start</FullButton>
     </DialogView>
   );
 }
@@ -46,9 +89,13 @@ const styles = StyleSheet.create({
     top: 18,
     left: 18,
   },
-  timerWrapper: {
-    position: 'absolute',
-    bottom: 18,
-    right: 18,
+  timeWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 50,
+    alignSelf: 'center',
+    height: 100,
+    padding: 18,
   },
 });
