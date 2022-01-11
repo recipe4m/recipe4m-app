@@ -26,7 +26,7 @@ export default function DimmedView({
   const opacity = useSharedValue<number>(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value * 0.1,
+    opacity: opacity.value * 0.4,
   }));
 
   useEffect(() => {

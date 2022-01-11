@@ -1,17 +1,12 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { ColorPalette } from '@style/ColorPalette';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import DialogView from './DialogView';
 import { DefaultOptions } from './interface';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Visible } from './DimmedView';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import { ScrollView } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 import FullButton from '../button/FullButton';
 
 export interface TimerDialogOptions extends DefaultOptions {

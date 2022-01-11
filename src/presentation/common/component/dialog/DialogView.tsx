@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { View } from 'react-native';
 import {
   Dimensions,
   ImageBackground,
@@ -77,6 +76,13 @@ export default function DialogView({
     opacity: 1.0 - opacity.value,
   }));
 
+  const contentWrapperStyle = useMemo(
+    () => ({
+      backgroundColor: colors.DIALOG_BACKGROUND,
+    }),
+    [colors],
+  );
+
   const animatedContentWrapperStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
   }));
@@ -122,7 +128,11 @@ export default function DialogView({
         />
       )}
       <AnimatedPressable
-        style={[styles.container, animatedContentWrapperStyle]}
+        style={[
+          styles.container,
+          contentWrapperStyle,
+          animatedContentWrapperStyle,
+        ]}
         onLayout={handleLayout}>
         {children}
       </AnimatedPressable>
