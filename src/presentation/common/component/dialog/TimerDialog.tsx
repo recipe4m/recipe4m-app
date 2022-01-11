@@ -29,10 +29,7 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
   }, [time]);
 
   return (
-    <DialogView
-      visible={visible}
-      layout={options.layout}
-      source={options.source}>
+    <DialogView visible={visible} options={options}>
       <Icon
         style={styles.icon}
         name="timer"

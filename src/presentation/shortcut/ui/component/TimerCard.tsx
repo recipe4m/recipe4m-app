@@ -7,12 +7,7 @@ import { StyleSheet, View } from 'react-native';
 import { ColorPalette } from '@style/ColorPalette';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDialog } from '@application/context/DialogContext';
-import {
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from 'react-native-reanimated';
+import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 export default function TimerCard() {
   const timerCardRef = useRef<View>(null);
@@ -31,12 +26,16 @@ export default function TimerCard() {
         opacity.value = 1;
       };
 
-      opacity.value = withDelay(100, withTiming(0, { duration: 0 }));
+      const handleOpen = () => {
+        opacity.value = 0;
+      };
+
       openTimer({
         type: 'timer',
         time: 4 * 60 * 1000,
         layout: { x, y, width, height },
         source: require('@asset/image/ramen.jpg'),
+        onOpen: handleOpen,
         onClose: handleClose,
       });
     });

@@ -8,7 +8,6 @@ import React, {
 import {
   Dimensions,
   ImageBackground,
-  ImageSourcePropType,
   LayoutChangeEvent,
   Pressable,
   StyleProp,
@@ -23,12 +22,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { Visible } from './DimmedView';
-import { Layout } from './interface';
+import { DefaultOptions, Layout } from './interface';
 
 interface DialogViewProps extends ViewProps {
   visible: Visible;
-  layout?: Layout;
-  source?: ImageSourcePropType;
+  options: DefaultOptions;
 }
 
 const initialLayout: Layout = { x: 0, y: 0, width: 0, height: 0 };
@@ -39,8 +37,7 @@ const AnimatedImageBackground =
 export default function DialogView({
   children,
   visible,
-  layout = initialLayout,
-  source,
+  options: { layout = initialLayout, source, onOpen },
   style,
   ...props
 }: PropsWithChildren<DialogViewProps>) {
@@ -78,6 +75,7 @@ export default function DialogView({
   const handleLayout = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
+      if (onOpen) onOpen();
       const screenHeight = Dimensions.get('window').height;
       opacity.value = withDelay(50, withTiming(1, { duration: 250 }));
       y.value = withTiming((screenHeight - layout.height) / 2, {
@@ -85,7 +83,7 @@ export default function DialogView({
       });
       height.value = withTiming(layout.height, { duration: 300 });
     },
-    [height, opacity, y],
+    [height, onOpen, opacity, y],
   );
 
   useEffect(() => {
