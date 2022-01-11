@@ -1,14 +1,16 @@
+import DimmedView, { Visible } from './DimmedView';
 import React, {
   ForwardedRef,
-  forwardRef,
   MutableRefObject,
+  forwardRef,
   useCallback,
   useEffect,
   useState,
 } from 'react';
-import DimmedView, { Visible } from './DimmedView';
-import { DefaultOptions } from './interface';
 import TimerDialog, { TimerDialogOptions } from './TimerDialog';
+
+import { BackHandler } from 'react-native';
+import { DefaultOptions } from './interface';
 
 export type DialogOptions = DefaultOptions | TimerDialogOptions;
 
@@ -23,8 +25,9 @@ function Dialog(props: DialogProps, ref: ForwardedRef<DialogRef>) {
   const [options, setOptions] = useState<DialogOptions>({});
   const { type } = options;
 
-  const handlePressDimmed = useCallback(() => {
+  const close = useCallback(() => {
     setVisible('disappearing');
+    return true;
   }, []);
 
   const handleInvisible = useCallback(() => {
@@ -46,13 +49,17 @@ function Dialog(props: DialogProps, ref: ForwardedRef<DialogRef>) {
     }
   }, [open, ref]);
 
+  useEffect(() => {
+    if (visible === 'visible')
+      BackHandler.addEventListener('hardwareBackPress', close);
+    else if (visible === 'invisible')
+      BackHandler.removeEventListener('hardwareBackPress', close);
+  }, [close, visible]);
+
   if (visible === 'invisible') return null;
 
   return (
-    <DimmedView
-      visible={visible}
-      onPress={handlePressDimmed}
-      onInvisible={handleInvisible}>
+    <DimmedView visible={visible} onPress={close} onInvisible={handleInvisible}>
       {type === 'timer' && (
         <TimerDialog
           visible={visible}

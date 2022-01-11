@@ -1,12 +1,14 @@
-import { ColorPalette } from '@style/ColorPalette';
-import React, { PropsWithChildren, useEffect, useRef } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
+import { Pressable, StyleSheet } from 'react-native';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
+
+import { Animation } from '@style/Animation';
+import { ColorPalette } from '@style/ColorPalette';
 
 export type Visible = 'visible' | 'invisible' | 'disappearing';
 
@@ -35,12 +37,15 @@ export default function DimmedView({
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
-      opacity.value = withDelay(100, withTiming(1, { duration: 300 }));
+      opacity.value = withDelay(
+        100,
+        withTiming(1, { duration: Animation.DIALOG_DURATION }),
+      );
     } else if (visible === 'disappearing') {
-      opacity.value = withTiming(0, { duration: 300 });
+      opacity.value = withTiming(0, { duration: Animation.DIALOG_DURATION });
       timeoutRef.current = setTimeout(() => {
         onInvisible();
-      }, 300);
+      }, Animation.DIALOG_DURATION);
     }
   }, [onInvisible, opacity, visible]);
 

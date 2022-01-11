@@ -1,5 +1,3 @@
-import useTheme from '@common/hook/useTheme';
-import React, { PropsWithChildren, useMemo } from 'react';
 import {
   Pressable,
   StyleProp,
@@ -8,7 +6,10 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
+import React, { PropsWithChildren, useMemo } from 'react';
+
 import Medium from '../text/Medium';
+import useTheme from '@common/hook/useTheme';
 
 interface FullButtonProps extends ViewProps {
   onPress?: () => void;
