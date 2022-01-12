@@ -1,16 +1,9 @@
-import authReducer, { AuthState } from '../reducer/auth';
-import themeReducer, { ThemeState } from '../reducer/theme';
+import { createStore } from '@reduxjs/toolkit';
+import { persistStore } from 'redux-persist';
+import { persistedReducer } from '../reducer';
 
-import { configureStore } from '@reduxjs/toolkit';
+const store = createStore(persistedReducer);
 
-export interface StoreState {
-  theme: ThemeState;
-  auth: AuthState;
-}
+export const persistor = persistStore(store);
 
-export default configureStore<StoreState>({
-  reducer: {
-    theme: themeReducer,
-    auth: authReducer,
-  },
-});
+export default store;
