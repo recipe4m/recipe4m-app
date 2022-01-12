@@ -1,7 +1,7 @@
 import Animated, {
+  WithTimingConfig,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withTiming,
 } from 'react-native-reanimated';
 import { DefaultOptions, Layout } from './interface';
@@ -39,6 +39,10 @@ const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground);
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+const withTimingConfig: WithTimingConfig = {
+  duration: Animation.DIALOG_DURATION,
+};
 
 export default function DialogView({
   children,
@@ -94,26 +98,21 @@ export default function DialogView({
     ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
       if (onOpen) onOpen();
       const screenHeight = Dimensions.get('window').height;
-      opacity.value = withTiming(1, { duration: Animation.DIALOG_DURATION });
-      y.value = withTiming((screenHeight - layout.height) / 2, {
-        duration: Animation.DIALOG_DURATION,
-      });
-      height.value = withTiming(layout.height, {
-        duration: Animation.DIALOG_DURATION,
-      });
+      opacity.value = withTiming(1, withTimingConfig);
+      y.value = withTiming(
+        (screenHeight - layout.height) / 2,
+        withTimingConfig,
+      );
+      height.value = withTiming(layout.height, withTimingConfig);
     },
     [height, onOpen, opacity, y],
   );
 
   useEffect(() => {
     if (visible === 'disappearing') {
-      opacity.value = withTiming(0, { duration: Animation.DIALOG_DURATION });
-      y.value = withTiming(layout.y, {
-        duration: Animation.DIALOG_DURATION,
-      });
-      height.value = withTiming(layout.height, {
-        duration: Animation.DIALOG_DURATION,
-      });
+      opacity.value = withTiming(0, withTimingConfig);
+      y.value = withTiming(layout.y, withTimingConfig);
+      height.value = withTiming(layout.height, withTimingConfig);
     }
   }, [height, layout.height, layout.y, opacity, visible, y]);
 
@@ -162,6 +161,6 @@ const styles = StyleSheet.create({
   },
   headBorder: {
     ...StyleSheet.absoluteFillObject,
-    height: 13,
+    height: 5,
   },
 });

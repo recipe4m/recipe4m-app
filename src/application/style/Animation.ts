@@ -1,3 +1,3 @@
 export const Animation = {
-  DIALOG_DURATION: 200,
+  DIALOG_DURATION: 150,
 };

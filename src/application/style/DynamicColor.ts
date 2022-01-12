@@ -78,7 +78,7 @@ const DarkDynamicColor: Color = {
   BOTTOM_TAB_ICON: ColorPalette.GRAY_500,
   BOTTOM_TAB_ICON_ACTIVE: ColorPalette.ORANGE_300,
 
-  DIALOG_BACKGROUND: ColorPalette.BLACK,
+  DIALOG_BACKGROUND: ColorPalette.GRAY_800,
   DIALOG_BORDER: ColorPalette.BLACK,
 
   BUTTON_FILL_BACKGROUND: ColorPalette.ORANGE_100,
