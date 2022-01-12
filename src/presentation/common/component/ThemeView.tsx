@@ -3,7 +3,7 @@ import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
 import { setDarkTheme, setLightTheme } from '@reducer/theme';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { StoreState } from '@application/store';
+import { RootState } from '@reducer';
 
 interface ThemeViewProps {}
 
@@ -11,7 +11,7 @@ export default function ThemeView({
   children,
 }: PropsWithChildren<ThemeViewProps>) {
   const scheme = useColorScheme();
-  const { theme, colors } = useSelector((state: StoreState) => state.theme);
+  const { theme, colors } = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch();
 
   const style = useMemo<StyleProp<ViewStyle>>(

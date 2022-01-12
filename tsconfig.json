@@ -41,6 +41,7 @@
     "paths": {                                /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
       "@style/*": ["./src/application/style/*"],
       "@asset/*": ["./src/application/asset/*"],
+      "@reducer": ["./src/application/reducer/index"],
       "@reducer/*": ["./src/application/reducer/*"],
       "@navigation/*": ["./src/application/navigation/*"],
       "@application/*": ["./src/application/*"],

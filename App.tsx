@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import store, { persistor } from './src/application/store';
 
+import { AuthProvider } from '@application/context/AuthContext';
 import { DialogProvider } from '@application/context/DialogContext';
 import Navigation from './src/application/navigation';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -16,13 +17,15 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <ThemeView>
-            <DialogProvider>
-              <Navigation>
-                <StackNavigator />
-              </Navigation>
-            </DialogProvider>
-          </ThemeView>
+          <AuthProvider>
+            <ThemeView>
+              <DialogProvider>
+                <Navigation>
+                  <StackNavigator />
+                </Navigation>
+              </DialogProvider>
+            </ThemeView>
+          </AuthProvider>
         </QueryClientProvider>
       </PersistGate>
     </Provider>

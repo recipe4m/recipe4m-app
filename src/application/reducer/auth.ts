@@ -13,7 +13,10 @@ export interface AuthState extends Tokens {
   isSignedIn: boolean;
 }
 
-export interface AuthReducer extends SliceCaseReducers<AuthState> {}
+export interface AuthReducer extends SliceCaseReducers<AuthState> {
+  resetTokens: (state: AuthState) => void;
+  setTokens: (state: AuthState, action: PayloadAction<Tokens>) => void;
+}
 
 export const authSlice = createSlice<AuthState, AuthReducer, 'auth'>({
   name: 'auth',
@@ -29,7 +32,7 @@ export const authSlice = createSlice<AuthState, AuthReducer, 'auth'>({
 
       state.isSignedIn = false;
     },
-    setTokens(state, action: PayloadAction<AuthState>) {
+    setTokens(state, action) {
       state.refreshToken = action.payload.refreshToken;
       state.accessToken = action.payload.accessToken;
 
@@ -39,6 +42,6 @@ export const authSlice = createSlice<AuthState, AuthReducer, 'auth'>({
   },
 });
 
-export const {} = authSlice.actions;
+export const { resetTokens, setTokens } = authSlice.actions;
 
 export default authSlice.reducer;

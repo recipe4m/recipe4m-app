@@ -5,12 +5,12 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { persistConfig } from './persist';
 import { persistReducer } from 'redux-persist';
 
-export interface StoreState {
+export interface RootState {
   theme: ThemeState;
   auth: AuthState;
 }
 
-export const rootReducer = combineReducers<StoreState>({
+export const rootReducer = combineReducers<RootState>({
   auth,
   theme,
 });
