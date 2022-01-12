@@ -1,10 +1,4 @@
-import {
-  FlatList,
-  NativeSyntheticEvent,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { FlatList, NativeSyntheticEvent, StyleSheet, View } from 'react-native';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -15,9 +9,7 @@ import useTheme from '@common/hook/useTheme';
 
 interface ScrollStateRef {
   offset: number;
-  velocity: number;
-  timestamp: number;
-  scrolling: boolean;
+  diff: number;
 }
 interface TimeListProps {
   type: 'hour' | 'minute' | 'second';
@@ -27,21 +19,20 @@ interface TimeListProps {
 export const ITEM_HEIGHT = 50;
 export const SCROLL_EVENT_THROTTLE = 100;
 
+const HOUR_DATA = Array.from({ length: 10 }, (_, i) => i);
+const OTHER_DATA = Array.from({ length: 10 }, (_, i) => i % 60);
+
 export default function TimeList({ type }: TimeListProps) {
   const flatListRef = useRef<FlatList>(null);
   const scrollStateRef = useRef<ScrollStateRef>({
     offset: 0,
-    velocity: 0,
-    timestamp: 0,
-    scrolling: false,
+    diff: 0,
   });
 
   const { colors } = useTheme();
 
   const data = useMemo(() => {
-    return type === 'hour'
-      ? Array.from({ length: 100 }, (_, i) => i)
-      : Array.from({ length: 180 }, (_, i) => i % 60);
+    return type === 'hour' ? HOUR_DATA : OTHER_DATA;
   }, [type]);
 
   const [color1, color2] = useMemo(() => {
@@ -51,45 +42,33 @@ export default function TimeList({ type }: TimeListProps) {
     ];
   }, [colors]);
 
-  const handleScrollAndroid = useCallback(
+  const handleScroll = useCallback(
     ({
-      nativeEvent: { contentOffset, velocity },
+      nativeEvent: { contentOffset },
     }: NativeSyntheticEvent<NativeScrollEvent>) => {
+      console.log('handleScroll', contentOffset.y);
+      scrollStateRef.current.diff =
+        contentOffset.y - scrollStateRef.current.offset;
       scrollStateRef.current.offset = contentOffset.y;
-
-      if (velocity) {
-        if (
-          Math.abs(scrollStateRef.current.velocity) >= 0.1 &&
-          Math.abs(velocity.y) < 0.1
-        ) {
-          const offset = contentOffset.y + velocity.y;
-          const index = Math.floor((offset + ITEM_HEIGHT / 2) / ITEM_HEIGHT);
-
-          flatListRef.current?.scrollToOffset({
-            animated: true,
-            offset: index * ITEM_HEIGHT,
-          });
-        }
-        scrollStateRef.current.velocity = velocity.y;
-      }
     },
     [],
   );
 
-  const handleScrollIOS = useCallback(
-    ({
-      nativeEvent: { contentOffset, velocity },
-    }: NativeSyntheticEvent<NativeScrollEvent>) => {
-      scrollStateRef.current.offset = contentOffset.y;
-      if (velocity && Math.abs(velocity.y) < 0.1) {
-      }
-    },
-    [],
-  );
-
-  const handleScrollBeginDrag = useCallback(() => {
-    scrollStateRef.current.timestamp = new Date().valueOf();
-    scrollStateRef.current.velocity = 0;
+  const handleTouchEnd = useCallback(() => {
+    console.log('handleTouchEnd diff', scrollStateRef.current.diff);
+    const offset = scrollStateRef.current.offset;
+    let index = Math.floor((offset + ITEM_HEIGHT / 2) / ITEM_HEIGHT);
+    if (scrollStateRef.current.diff > 1) index++;
+    else if (scrollStateRef.current.diff < -1) index--;
+    console.log('handleTouchEnd offset', index * ITEM_HEIGHT);
+    flatListRef.current?.scrollToOffset({
+      animated: false,
+      offset: offset,
+    });
+    flatListRef.current?.scrollToOffset({
+      animated: true,
+      offset: index * ITEM_HEIGHT,
+    });
   }, []);
 
   const handleStartShouldSetResponder = useCallback(() => true, []);
@@ -118,19 +97,14 @@ export default function TimeList({ type }: TimeListProps) {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={SCROLL_EVENT_THROTTLE}
-        onScroll={
-          Platform.OS === 'android' ? handleScrollAndroid : handleScrollIOS
-        }
-        onScrollBeginDrag={
-          Platform.OS === 'android' ? undefined : handleScrollBeginDrag
-        }
-        onMomentumScrollEnd={() => {
-          scrollStateRef.current.scrolling = false;
-        }}
+        onScroll={handleScroll}
+        onScrollEndDrag={handleTouchEnd}
+        onTouchEnd={handleTouchEnd}
         ListHeaderComponent={View}
         ListFooterComponent={View}
         ListHeaderComponentStyle={styles.listHeader}
         ListFooterComponentStyle={styles.listFooter}
+        initialNumToRender={5}
       />
       <LinearGradient style={styles.headerGradient} colors={[color1, color2]} />
       <LinearGradient style={styles.footerGradient} colors={[color2, color1]} />

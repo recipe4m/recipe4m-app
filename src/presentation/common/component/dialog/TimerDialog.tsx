@@ -52,9 +52,9 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         {ready && (
           <>
             <TimeList type="hour" initialValue={hour} />
-            <Heading>:</Heading>
+            <Heading style={styles.colon}>:</Heading>
             <TimeList type="minute" initialValue={minute} />
-            <Heading>:</Heading>
+            <Heading style={styles.colon}>:</Heading>
             <TimeList type="second" initialValue={second} />
           </>
         )}
@@ -78,5 +78,8 @@ const styles = StyleSheet.create({
     marginTop: 50,
     padding: 18,
     height: ITEM_HEIGHT * 5,
+  },
+  colon: {
+    marginHorizontal: 10,
   },
 });
