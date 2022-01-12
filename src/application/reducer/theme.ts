@@ -18,11 +18,11 @@ export const themeSlice = createSlice<ThemeState, ThemeReducer, 'theme'>({
     colors: DynamicColor.light,
   },
   reducers: {
-    setDarkTheme: state => {
+    setDarkTheme(state) {
       state.theme = 'dark';
       state.colors = DynamicColor.dark;
     },
-    setLightTheme: state => {
+    setLightTheme(state) {
       state.theme = 'light';
       state.colors = DynamicColor.light;
     },
