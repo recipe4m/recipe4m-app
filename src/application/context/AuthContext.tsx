@@ -1,8 +1,7 @@
 import React, { PropsWithChildren, createContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@reducer';
-import { setTokens } from '@reducer/auth';
+import { useSelector } from 'react-redux';
 
 export interface AuthContextValue {}
 
@@ -13,15 +12,8 @@ export const AuthContext = createContext<AuthContextValue>({});
 export function AuthProvider({
   children,
 }: PropsWithChildren<AuthProviderProps>) {
-  const auth = useSelector(({ auth }: RootState) => auth);
-
-  const dispatch = useDispatch();
-
-  dispatch(
-    setTokens({ refreshToken: 'refreshToken', accessToken: 'accessToken' }),
-  );
-
-  console.log(auth);
+  const refreshToken = useSelector(({ auth }: RootState) => auth.refreshToken);
+  console.log(refreshToken);
 
   return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>;
 }

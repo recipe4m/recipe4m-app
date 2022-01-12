@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect, useMemo } from 'react';
 import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import { setDarkTheme, setLightTheme } from '@reducer/theme';
+import { setDarkTheme, setLightTheme } from '@reducer/Theme';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@reducer';

@@ -1,8 +1,8 @@
-import auth, { AuthState } from './auth';
-import theme, { ThemeState } from './theme';
+import auth, { AuthState } from './Auth';
+import theme, { ThemeState } from './Theme';
 
 import { combineReducers } from '@reduxjs/toolkit';
-import { persistConfig } from './persist';
+import { persistConfig } from './Persist';
 import { persistReducer } from 'redux-persist';
 
 export interface RootState {

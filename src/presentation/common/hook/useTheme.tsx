@@ -1,5 +1,5 @@
 import { RootState } from '@reducer';
-import { ThemeState } from '@reducer/theme';
+import { ThemeState } from '@reducer/Theme';
 import { useSelector } from 'react-redux';
 
 export default function useTheme() {
