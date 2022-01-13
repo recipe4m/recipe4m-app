@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import TimeList, { ITEM_HEIGHT } from './TimeList';
 
 import { Animation } from '@style/Animation';
 import { ColorPalette } from '@style/ColorPalette';
@@ -9,7 +8,9 @@ import { DefaultOptions } from './interface';
 import DialogView from './DialogView';
 import FullButton from '../button/FullButton';
 import Heading from '../text/Heading';
+import { ITEM_HEIGHT } from './TimeListItem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import TimeList from './TimeList';
 import { Visible } from './DimmedView';
 
 export interface TimerDialogOptions extends DefaultOptions {
@@ -36,9 +37,11 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
 
   useEffect(() => {
     setTimeout(() => {
-      setReady(true);
+      // setReady(true);
     }, Animation.DIALOG_DURATION * 0.9);
   }, []);
+
+  console.log(hour, minute, second);
 
   return (
     <DialogView visible={visible} options={options}>
@@ -49,15 +52,11 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         color={ColorPalette.ORANGE_100}
       />
       <View style={styles.timeListWrapper}>
-        {ready && (
-          <>
-            <TimeList type="hour" initialValue={hour} />
-            <Heading style={styles.colon}>:</Heading>
-            <TimeList type="minute" initialValue={minute} />
-            <Heading style={styles.colon}>:</Heading>
-            <TimeList type="second" initialValue={second} />
-          </>
-        )}
+        <TimeList initialValue={hour} />
+        <Heading style={styles.colon}>:</Heading>
+        <TimeList initialValue={minute} />
+        <Heading style={styles.colon}>:</Heading>
+        <TimeList initialValue={second} />
       </View>
       <FullButton>Start</FullButton>
     </DialogView>
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
     marginTop: 50,
     padding: 18,
     height: ITEM_HEIGHT * 5,
