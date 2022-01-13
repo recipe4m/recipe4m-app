@@ -9,16 +9,24 @@ import {
   PanGestureHandler,
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { StyleSheet, View } from 'react-native';
 import TimeListItem, { ITEM_HEIGHT } from './TimeListItem';
 
 import LinearGradient from 'react-native-linear-gradient';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { convertHexToRGBA } from '@application/util/color';
 import useTheme from '@common/hook/useTheme';
 
 interface TimeListProps {
   initialValue: number;
+  onChangeValue?: (value: number) => void;
 }
 
 interface TimeListRef {
@@ -30,7 +38,11 @@ interface TimeListRef {
 
 const THREADHOLD = ITEM_HEIGHT / 2;
 
-export default function TimeList({ initialValue }: TimeListProps) {
+export default function TimeList({
+  initialValue,
+  onChangeValue,
+}: TimeListProps) {
+  const eventRef = useRef({ initialized: false });
   const timeListRef = useRef<TimeListRef>({
     baseValue: 0,
     diff: 0,
@@ -86,6 +98,7 @@ export default function TimeList({ initialValue }: TimeListProps) {
         let _value = baseValue - _diff;
         if (_value < 0) _value += 60;
         else if (_value >= 60) _value -= 60;
+
         setValue(_value);
       }
     },
@@ -105,6 +118,18 @@ export default function TimeList({ initialValue }: TimeListProps) {
     top: -1 * ITEM_HEIGHT,
     transform: [{ translateY: translateY.value }],
   }));
+
+  useEffect(() => {
+    if (!eventRef.current.initialized) {
+      eventRef.current.initialized = true;
+    } else {
+      ReactNativeHapticFeedback.trigger('selection', {
+        enableVibrateFallback: true,
+        ignoreAndroidSystemSettings: false,
+      });
+      if (onChangeValue) onChangeValue(value);
+    }
+  }, [onChangeValue, value]);
 
   return (
     <GestureHandlerRootView onStartShouldSetResponder={() => true}>
