@@ -41,4 +41,5 @@ export enum ColorPalette {
   ORANGE_300 = '#F58428',
   ORANGE_200 = '#F6984A',
   ORANGE_100 = '#F8AB6C',
+  ORANGE_50 = '#FFFFF3',
 }

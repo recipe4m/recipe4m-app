@@ -3,7 +3,6 @@ import React, { useCallback, useMemo } from 'react';
 
 import BottomTabItemLabel from './BottomTabItemLabel';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { ScreenName } from '@navigation/ScreenName';
 import useTheme from '@common/hook/useTheme';
 
 export interface Item {

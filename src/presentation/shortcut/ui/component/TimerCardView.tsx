@@ -1,46 +1,50 @@
-import React, { PropsWithChildren, useMemo } from 'react';
+import React, { ForwardedRef, forwardRef, PropsWithChildren } from 'react';
 import {
   StyleProp,
   ImageBackground,
   ViewStyle,
-  ImageBackgroundProps,
   StyleSheet,
+  Pressable,
+  PressableProps,
+  ImageSourcePropType,
+  View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Animated from 'react-native-reanimated';
 
-interface TimerCardView extends ImageBackgroundProps {}
+interface TimerCardViewProps extends Omit<PressableProps, 'style'> {
+  style: StyleProp<ViewStyle>;
+  source: ImageSourcePropType;
+}
 
-export default function TimerCardView({
-  children,
-  style,
-  ...props
-}: PropsWithChildren<TimerCardView>) {
-  const timerCardViewStyle = useMemo<StyleProp<ViewStyle>>(
-    () => ({
-      margin: 18,
-      padding: 18,
-      borderRadius: 18,
-      height: 220,
-      overflow: 'hidden',
-    }),
-    [],
-  );
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+function TimerCardView(
+  { children, source, style, ...props }: PropsWithChildren<TimerCardViewProps>,
+  ref: ForwardedRef<View>,
+) {
   return (
-    <ImageBackground {...props} style={[timerCardViewStyle, style]}>
+    <AnimatedPressable ref={ref} {...props} style={[styles.container, style]}>
+      <ImageBackground style={StyleSheet.absoluteFillObject} source={source} />
       <LinearGradient
         start={{ x: 0, y: 0.5 }}
         end={{ x: 0, y: 1 }}
         colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)']}
-        style={styles.background}
+        style={StyleSheet.absoluteFillObject}
       />
       {children}
-    </ImageBackground>
+    </AnimatedPressable>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    ...StyleSheet.absoluteFillObject,
+  container: {
+    margin: 18,
+    padding: 18,
+    borderRadius: 18,
+    height: 220,
+    overflow: 'hidden',
   },
 });
+
+export default forwardRef(TimerCardView);

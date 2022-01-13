@@ -22,7 +22,13 @@ export interface Color {
   BOTTOM_TAB_ICON: string;
   BOTTOM_TAB_ICON_ACTIVE: string;
 
-  CARD_BORDER: string;
+  DIALOG_BACKGROUND: string;
+  DIALOG_BORDER: string;
+
+  BUTTON_FILL_BACKGROUND: string;
+  BUTTON_FILL_LABEL: string;
+  BUTTON_OUTLINE_BACKGROUND: string;
+  BUTTON_OUTLINE_LABEL: string;
 }
 
 const LightDynamicColor: Color = {
@@ -44,7 +50,13 @@ const LightDynamicColor: Color = {
   BOTTOM_TAB_ICON: ColorPalette.GRAY_500,
   BOTTOM_TAB_ICON_ACTIVE: ColorPalette.ORANGE_300,
 
-  CARD_BORDER: ColorPalette.GRAY_300,
+  DIALOG_BACKGROUND: ColorPalette.WHITE,
+  DIALOG_BORDER: ColorPalette.ORANGE_100,
+
+  BUTTON_FILL_BACKGROUND: ColorPalette.ORANGE_100,
+  BUTTON_FILL_LABEL: ColorPalette.WHITE,
+  BUTTON_OUTLINE_BACKGROUND: ColorPalette.ORANGE_100,
+  BUTTON_OUTLINE_LABEL: ColorPalette.ORANGE_200,
 };
 
 const DarkDynamicColor: Color = {
@@ -66,7 +78,13 @@ const DarkDynamicColor: Color = {
   BOTTOM_TAB_ICON: ColorPalette.GRAY_500,
   BOTTOM_TAB_ICON_ACTIVE: ColorPalette.ORANGE_300,
 
-  CARD_BORDER: ColorPalette.GRAY_700,
+  DIALOG_BACKGROUND: ColorPalette.GRAY_800,
+  DIALOG_BORDER: ColorPalette.BLACK,
+
+  BUTTON_FILL_BACKGROUND: ColorPalette.ORANGE_100,
+  BUTTON_FILL_LABEL: ColorPalette.WHITE,
+  BUTTON_OUTLINE_BACKGROUND: ColorPalette.ORANGE_100,
+  BUTTON_OUTLINE_LABEL: ColorPalette.ORANGE_200,
 };
 
 export const DynamicColor = {
