@@ -41,8 +41,6 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
     }, Animation.DIALOG_DURATION * 0.9);
   }, []);
 
-  console.log(hour, minute, second);
-
   return (
     <DialogView visible={visible} options={options}>
       <Icon
