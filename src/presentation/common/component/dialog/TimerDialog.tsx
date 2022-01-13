@@ -50,7 +50,7 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         color={ColorPalette.ORANGE_100}
       />
       <View style={styles.timeListWrapper}>
-        <TimeList initialValue={hour} />
+        <TimeList initialValue={hour} range={100} />
         <Heading style={styles.colon}>:</Heading>
         <TimeList initialValue={minute} />
         <Heading style={styles.colon}>:</Heading>

@@ -26,6 +26,10 @@ import useTheme from '@common/hook/useTheme';
 
 interface TimeListProps {
   initialValue: number;
+  /**
+   * 60 경우 0 ~ 59까지 숫자 표현
+   */
+  range?: number;
   onChangeValue?: (value: number) => void;
 }
 
@@ -40,6 +44,7 @@ const THREADHOLD = ITEM_HEIGHT / 2;
 
 export default function TimeList({
   initialValue,
+  range = 60,
   onChangeValue,
 }: TimeListProps) {
   const eventRef = useRef({ initialized: false });
@@ -61,8 +66,8 @@ export default function TimeList({
 
     const _values = Array.from({ length: 7 }, (_, i) => {
       let _value = value + i - 3;
-      if (_value < 0) _value += 60;
-      else if (_value >= 60) _value -= 60;
+      if (_value < 0) _value += range;
+      else if (_value >= range) _value -= range;
 
       const _index = index - 3 + i;
 
@@ -96,8 +101,8 @@ export default function TimeList({
         timeListRef.current.index += diff - _diff;
         timeListRef.current.diff = _diff;
         let _value = baseValue - _diff;
-        if (_value < 0) _value += 60;
-        else if (_value >= 60) _value -= 60;
+        if (_value < 0) _value += range;
+        else if (_value >= range) _value -= range;
 
         setValue(_value);
       }
