@@ -13,6 +13,10 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import TimeListItem, { ITEM_HEIGHT } from './TimeListItem';
 
+import LinearGradient from 'react-native-linear-gradient';
+import { convertHexToRGBA } from '@application/util/color';
+import useTheme from '@common/hook/useTheme';
+
 interface TimeListProps {
   initialValue: number;
 }
@@ -33,6 +37,9 @@ export default function TimeList({ initialValue }: TimeListProps) {
     baseIndex: 3,
     index: 3,
   });
+
+  const { colors } = useTheme();
+
   const translateY = useSharedValue<number>(0);
 
   const [value, setValue] = useState<number>(initialValue);
@@ -52,6 +59,14 @@ export default function TimeList({ initialValue }: TimeListProps) {
 
     return _values;
   }, [value]);
+
+  const gradientColors = useMemo(
+    () => [
+      colors.DIALOG_BACKGROUND,
+      convertHexToRGBA(colors.DIALOG_BACKGROUND, 0),
+    ],
+    [colors],
+  );
 
   const handleBegan = useCallback(() => {
     timeListRef.current.baseValue = value;
@@ -105,6 +120,14 @@ export default function TimeList({ initialValue }: TimeListProps) {
             ))}
           </Animated.View>
           <View style={styles.selectedArea} />
+          <LinearGradient
+            style={[styles.gradient, styles.topGradient]}
+            colors={[gradientColors[0], gradientColors[1]]}
+          />
+          <LinearGradient
+            style={[styles.gradient, styles.bottomGradient]}
+            colors={[gradientColors[1], gradientColors[0]]}
+          />
         </View>
       </PanGestureHandler>
     </GestureHandlerRootView>
@@ -129,6 +152,18 @@ const styles = StyleSheet.create({
   list: {
     width: '100%',
     alignItems: 'center',
-    height: 127 * ITEM_HEIGHT,
+  },
+  gradient: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: ITEM_HEIGHT * 2,
+  },
+  topGradient: {
+    top: 0,
+  },
+  bottomGradient: {
+    bottom: 0,
   },
 });
