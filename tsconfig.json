@@ -47,6 +47,8 @@
       "@application/*": ["./src/application/*"],
       "@common/*": ["./src/presentation/common/*"],
       "@presentation/*": ["./src/presentation/*"],
+      "@swagger/auth": ["./swagger/auth/index"],
+      "@swagger/content": ["./swagger/content/index"],
     },                           
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */

@@ -17,6 +17,7 @@ export interface AuthState {
 
 export interface AuthReducer extends SliceCaseReducers<AuthState> {
   signIn: (state: AuthState, action: PayloadAction<Tokens>) => void;
+  signOut: (state: AuthState) => void;
 }
 
 export const authSlice = createSlice<AuthState, AuthReducer, 'auth'>({
@@ -42,6 +43,6 @@ export const authSlice = createSlice<AuthState, AuthReducer, 'auth'>({
   },
 });
 
-export const {} = authSlice.actions;
+export const { signIn, signOut } = authSlice.actions;
 
 export default authSlice.reducer;

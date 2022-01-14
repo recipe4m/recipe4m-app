@@ -5,6 +5,8 @@ import Axios, {
   AxiosResponse,
 } from 'axios';
 
+import { ApiPostAuthRefreshResData } from '@swagger/auth';
+
 export interface ApiErrorResponse {
   errorCode: number;
   errorMsg: string;
@@ -50,15 +52,6 @@ export class AxiosClient {
       if (retry <= 0) throw new Error('Network Error');
       return await this._axiosInstance.request(config);
     } catch (error) {
-      const axiosError = this.getAxiosError(error);
-      if (axiosError) {
-        const { errorCode } = axiosError;
-        if (errorCode === 40101) {
-          // TODO Refresh
-          // await this.refresh();
-          return await this.request(config, retry - 1);
-        }
-      }
       throw error;
     }
   }
@@ -129,5 +122,6 @@ export class AxiosClient {
 }
 
 export const axiosClient = new AxiosClient({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   timeout: 5000,
 });

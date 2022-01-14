@@ -10,7 +10,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "generate:dev": "rm -rf swagger/auth && openapi-generator-cli generate -i https://api.recipe4m.com/dev/auth/swagger-ui-json -g typescript -o swagger/auth && prettier --write \"swagger/**/*.ts*\""
+    "generate:auth": "rm -rf swagger/auth && openapi-generator-cli generate -i https://api.recipe4m.com/dev/auth/swagger-ui-json -g typescript -o swagger/auth && prettier --write \"swagger/**/*.ts*\"",
+    "generate:content": "rm -rf swagger/auth && openapi-generator-cli generate -i https://api.recipe4m.com/dev/swagger-ui-json -g typescript -o generate:content && prettier --write \"swagger/**/*.ts*\""
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.15",

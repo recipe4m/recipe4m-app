@@ -1,7 +1,18 @@
-import React, { PropsWithChildren, createContext } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
+import React, {
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
+import { signIn, signOut } from '@reducer/Auth';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@reducer';
-import { useSelector } from 'react-redux';
+import { apiPostAuthRefresh } from 'src/data/remote/auth';
+import { axiosClient } from '@application/lib/AxiosClient';
+import { parseJwt } from '@application/lib/JsonWebToken';
 
 export interface AuthContextValue {}
 
@@ -12,8 +23,87 @@ export const AuthContext = createContext<AuthContextValue>({});
 export function AuthProvider({
   children,
 }: PropsWithChildren<AuthProviderProps>) {
-  const refreshToken = useSelector(({ auth }: RootState) => auth.refreshToken);
-  console.log(refreshToken);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { refreshToken, accessToken } = useSelector(
+    ({ auth }: RootState) => auth,
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    try {
+      if (refreshToken) {
+        console.log('here');
+        apiPostAuthRefresh({ refreshToken })
+          .then(res => console.log(res.data))
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    } catch (error) {
+      dispatch(signOut());
+    }
+  }, []);
+
+  const refresh = useCallback(async () => {
+    if (!accessToken || !refreshToken) return;
+
+    const { exp } = parseJwt(accessToken);
+    const expiredAt = (exp - 5 * 60) * 1000; // 만료 5분 전
+    const now = new Date().valueOf();
+
+    if (now > expiredAt) {
+      try {
+        const res = await apiPostAuthRefresh({ refreshToken });
+
+        dispatch(
+          signIn({
+            refreshToken: res.data.refreshToken,
+            accessToken: res.data.accessToken,
+          }),
+        );
+      } catch (error) {
+        dispatch(signOut());
+      }
+    }
+  }, [refreshToken, accessToken]);
+
+  useEffect(() => {
+    if (accessToken) {
+      axiosClient.setBearerToken(accessToken);
+    } else {
+      axiosClient.resetBearerToken();
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    if (accessToken && refreshToken) {
+      const { exp } = parseJwt(accessToken);
+      const expiredAt = (exp - 5 * 60) * 1000; // 만료 5분 전
+      const now = new Date().valueOf();
+
+      timeoutRef.current = setTimeout(() => {
+        refresh();
+      }, now - expiredAt);
+    } else {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    }
+  }, [refresh]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      'change',
+      (appStateStatus: AppStateStatus) => {
+        if (appStateStatus === 'active') refresh();
+      },
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, [refresh]);
 
   return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>;
 }

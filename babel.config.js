@@ -24,6 +24,8 @@ module.exports = {
           '@application': './src/application',
           '@common': './src/presentation/common',
           '@presentation': './src/presentation',
+          '@swagger/auth': './swagger/auth',
+          '@swagger/content': './swagger/content',
         },
       },
     ],
