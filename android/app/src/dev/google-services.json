@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "124981377138",
+    "project_id": "recipe4m-dev",
+    "storage_bucket": "recipe4m-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124981377138:android:e0de1a31737b3fd0e26aeb",
+        "android_client_info": {
+          "package_name": "com.recipe4m.app.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124981377138-7d7t0u5qhrhb12a21asc9mchlo1f74gb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.recipe4m.app.dev",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "124981377138-0k9v2ld8kkrt4m7hoads8694b8ndet5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChMan33Yd0J0AduP7cu0cCElyFbn4Po6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124981377138-0k9v2ld8kkrt4m7hoads8694b8ndet5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "124981377138-t6v2qv9o2rpa3scv9g5f9uv0aag5hs7k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.recipe4m.app.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
