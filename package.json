@@ -9,7 +9,8 @@
     "ios:prod": "react-native run-ios --scheme recipe4m",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "generate:dev": "rm -rf swagger/auth && openapi-generator-cli generate -i https://api.recipe4m.com/dev/auth/swagger-ui-json -g typescript -o swagger/auth && prettier --write \"swagger/**/*.ts*\""
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.15",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
+    "@openapitools/openapi-generator-cli": "^2.4.24",
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.66.4",

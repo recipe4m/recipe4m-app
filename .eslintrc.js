@@ -7,6 +7,7 @@ module.exports = {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     curly: [0, 'multi-or-nest'],
+    'prettier/prettier': ['error', { endOfLine: 'auto ' }],
   },
   globals: {
     NodeJS: true,

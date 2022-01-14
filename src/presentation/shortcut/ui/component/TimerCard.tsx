@@ -1,13 +1,14 @@
-import Heading from '@common/component/text/Heading';
-import Medium from '@common/component/text/Medium';
 import React, { useCallback, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+
+import { ColorPalette } from '@style/ColorPalette';
+import Heading from '@common/component/text/Heading';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Medium from '@common/component/text/Medium';
 import Regular from '@common/component/text/Regular';
 import TimerCardView from './TimerCardView';
-import { StyleSheet, View } from 'react-native';
-import { ColorPalette } from '@style/ColorPalette';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDialog } from '@application/context/DialogContext';
-import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 export default function TimerCard() {
   const timerCardRef = useRef<View>(null);
