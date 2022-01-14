@@ -61,3 +61,6 @@ buck-out/
 
 # Swagger schema
 swagger
+
+# env
+.env.production

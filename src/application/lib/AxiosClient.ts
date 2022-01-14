@@ -5,7 +5,7 @@ import Axios, {
   AxiosResponse,
 } from 'axios';
 
-import { ApiPostAuthRefreshResData } from '@swagger/auth';
+import { API_BASE_URL } from 'react-native-dotenv';
 
 export interface ApiErrorResponse {
   errorCode: number;
@@ -122,6 +122,6 @@ export class AxiosClient {
 }
 
 export const axiosClient = new AxiosClient({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: API_BASE_URL,
   timeout: 5000,
 });
