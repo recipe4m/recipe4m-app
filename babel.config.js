@@ -25,6 +25,8 @@ module.exports = {
           '@application': './src/application',
           '@common': './src/presentation/common',
           '@presentation': './src/presentation',
+          '@remote': './src/data/remote',
+          '@local': './src/data/local',
           '@swagger/auth': './swagger/auth',
           '@swagger/content': './swagger/content',
         },

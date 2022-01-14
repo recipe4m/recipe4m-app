@@ -1,9 +1,9 @@
 import {
+  ApiPatchAuthSignOutReqBody,
   ApiPostAuthRefreshReqBody,
   ApiPostAuthRefreshResData,
   ApiPostAuthSignInReqBody,
   ApiPostAuthSignInResData,
-  ApiPostAuthSignOutReqBody,
   ApiPostAuthSignUpReqBody,
   ApiPostAuthSignUpResData,
 } from '@swagger/auth';
@@ -32,9 +32,9 @@ export async function apiPostAuthSignUp(body: ApiPostAuthSignUpReqBody) {
   }
 }
 
-export async function apiPostAuthSignOut(body: ApiPostAuthSignOutReqBody) {
+export async function apiPatchAuthSignOut(body: ApiPatchAuthSignOutReqBody) {
   try {
-    return axiosClient.post<null, ApiPostAuthRefreshReqBody>(
+    return axiosClient.patch<null, ApiPostAuthRefreshReqBody>(
       'auth/sign-out',
       body,
     );

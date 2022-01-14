@@ -3,10 +3,12 @@ import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import React, { useCallback, useState } from 'react';
 
 import { EdgeInsets } from 'react-native-safe-area-context';
+import { RootState } from '@reducer';
 import { ScreenName } from '@navigation/ScreenName';
 import { TabActions } from '@react-navigation/native';
 import { BottomTabBarProps as TabBarProps } from '@react-navigation/bottom-tabs';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import useTheme from '@common/hook/useTheme';
 
 interface BottomTabBarProps extends TabBarProps {
@@ -29,9 +31,18 @@ export default function BottomTabBar({
   insets,
   navigation,
 }: BottomTabBarProps) {
+  const isSignedIn = useSelector(
+    ({ auth: { isSignedIn } }: RootState) => isSignedIn,
+  );
   const { theme, colors } = useTheme();
 
   const [tab, setTab] = useState<string>(BOTTOM_TAB_ITEMS[0].tab);
+
+  const bottomTabItems = useMemo(() => {
+    return isSignedIn
+      ? BOTTOM_TAB_ITEMS
+      : BOTTOM_TAB_ITEMS.filter(({ tab }) => tab !== ScreenName.CreateScreen);
+  }, [isSignedIn]);
 
   const containerStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
@@ -63,7 +74,7 @@ export default function BottomTabBar({
   return (
     <View style={containerStyle}>
       <View style={backgroundStyle} />
-      {BOTTOM_TAB_ITEMS.map(item => (
+      {bottomTabItems.map(item => (
         <BottomTabItem
           key={item.tab}
           item={item}
