@@ -64,3 +64,9 @@ swagger
 
 # env
 .env.production
+
+# Google Service
+android/app/src/google-services.json
+android/app/src/dev/google-services.json
+ios/recipe4m/GoogleService-Info.plist
+ios/recipe4m-dev/GoogleService-Info.plist

@@ -6,14 +6,6 @@ export default function ShortcutScreen() {
   return (
     <BottomTabView>
       <TimerCard />
-      <TimerCard />
-      <TimerCard />
-      <TimerCard />
-      <TimerCard />
-      <TimerCard />
-      <TimerCard />
-      <TimerCard />
-      <TimerCard />
     </BottomTabView>
   );
 }
