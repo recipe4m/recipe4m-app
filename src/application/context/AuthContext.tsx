@@ -9,6 +9,7 @@ import React, {
 import { signIn, signOut } from '@reducer/Auth';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { NODE_ENV } from '@env';
 import { RootState } from '@reducer';
 import { apiPostAuthRefresh } from 'src/data/remote/auth';
 import { axiosClient } from '@application/lib/AxiosClient';
@@ -67,6 +68,8 @@ export function AuthProvider({
     }
 
     if (accessToken && refreshToken) {
+      console.debug(accessToken);
+
       const { exp } = parseJwt(accessToken);
       const expiredAt = (exp - 1 * 60) * 1000; // 만료 1분 전
       const now = new Date().valueOf();
