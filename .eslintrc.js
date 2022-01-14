@@ -9,7 +9,4 @@ module.exports = {
     curly: [0, 'multi-or-nest'],
     'prettier/prettier': ['error', { endOfLine: 'auto ' }],
   },
-  globals: {
-    NodeJS: true,
-  },
 };

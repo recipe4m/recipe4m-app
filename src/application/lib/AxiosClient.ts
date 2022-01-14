@@ -5,7 +5,7 @@ import Axios, {
   AxiosResponse,
 } from 'axios';
 
-import { API_BASE_URL } from 'react-native-dotenv';
+import { API_BASE_URL } from '@env';
 
 export interface ApiErrorResponse {
   errorCode: number;

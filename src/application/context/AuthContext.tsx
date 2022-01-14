@@ -23,26 +23,11 @@ export const AuthContext = createContext<AuthContextValue>({});
 export function AuthProvider({
   children,
 }: PropsWithChildren<AuthProviderProps>) {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<number | null>(null);
   const { refreshToken, accessToken } = useSelector(
     ({ auth }: RootState) => auth,
   );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    try {
-      if (refreshToken) {
-        console.log('here');
-        apiPostAuthRefresh({ refreshToken })
-          .then(res => console.log(res.data))
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    } catch (error) {
-      dispatch(signOut());
-    }
-  }, []);
 
   const refresh = useCallback(async () => {
     if (!accessToken || !refreshToken) return;
@@ -76,19 +61,19 @@ export function AuthProvider({
   }, [accessToken]);
 
   useEffect(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
     if (accessToken && refreshToken) {
       const { exp } = parseJwt(accessToken);
-      const expiredAt = (exp - 5 * 60) * 1000; // 만료 5분 전
+      const expiredAt = (exp - 1 * 60) * 1000; // 만료 1분 전
       const now = new Date().valueOf();
 
       timeoutRef.current = setTimeout(() => {
         refresh();
-      }, now - expiredAt);
-    } else {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
+      }, expiredAt - now);
     }
   }, [refresh]);
 
