@@ -1,4 +1,4 @@
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import React, { useCallback } from 'react';
 
 import BottomTabView from '@common/component/bottom-tab/BottomTabView';

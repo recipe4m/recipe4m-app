@@ -1,9 +1,11 @@
 import {
+  Insets,
   Platform,
   ScrollViewProps,
   StyleProp,
   StyleSheet,
   ViewStyle,
+  useWindowDimensions,
 } from 'react-native';
 import React, { PropsWithChildren, useMemo } from 'react';
 
@@ -19,11 +21,20 @@ export default function BottomTabView({
   ...props
 }: PropsWithChildren<BottomTabViewProps>) {
   const insets = useSafeAreaInsets();
+  const windowDimensions = useWindowDimensions();
 
   const insetsStyle = useMemo<StyleProp<ViewStyle>>(
     () => ({
+      minHeight: windowDimensions.height - 50,
       paddingTop: insets.top,
       paddingBottom: Platform.OS === 'ios' ? insets.bottom + 50 : 0,
+    }),
+    [insets],
+  );
+
+  const scrollIndicatorInsets = useMemo<Insets>(
+    () => ({
+      bottom: insets.bottom ? insets.bottom + 15 : 50,
     }),
     [insets],
   );
@@ -32,9 +43,7 @@ export default function BottomTabView({
     <ScrollView
       {...props}
       style={[styles.container, style]}
-      scrollIndicatorInsets={{
-        bottom: insets.bottom ? insets.bottom + 15 : 50,
-      }}>
+      scrollIndicatorInsets={scrollIndicatorInsets}>
       <View style={insetsStyle}>{children}</View>
     </ScrollView>
   );

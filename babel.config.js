@@ -27,6 +27,7 @@ module.exports = {
           '@presentation': './src/presentation',
           '@remote': './src/data/remote',
           '@local': './src/data/local',
+          '@useCase': './src/domain/use-case',
           '@swagger/auth': './swagger/auth',
           '@swagger/content': './swagger/content',
         },
