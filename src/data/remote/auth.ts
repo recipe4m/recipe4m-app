@@ -34,7 +34,7 @@ export async function apiPostAuthSignUp(body: ApiPostAuthSignUpReqBody) {
 
 export async function apiPatchAuthSignOut(body: ApiPatchAuthSignOutReqBody) {
   try {
-    return axiosClient.patch<null, ApiPostAuthRefreshReqBody>(
+    return axiosClient.patch<null, ApiPatchAuthSignOutReqBody>(
       'auth/sign-out',
       body,
     );
