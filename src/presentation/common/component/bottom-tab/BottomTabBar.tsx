@@ -1,11 +1,11 @@
 import BottomTabItem, { Item } from './BottomTabItem';
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import React, { useCallback, useState } from 'react';
+import { StackActions, TabActions } from '@react-navigation/native';
 
 import { EdgeInsets } from 'react-native-safe-area-context';
 import { RootState } from '@reducer';
 import { ScreenName } from '@navigation/ScreenName';
-import { TabActions } from '@react-navigation/native';
 import { BottomTabBarProps as TabBarProps } from '@react-navigation/bottom-tabs';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -65,8 +65,12 @@ export default function BottomTabBar({
   const handlePressItem = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     ({ tab }: Item) => {
-      navigation.dispatch(TabActions.jumpTo(tab));
-      setTab(tab);
+      if (tab === ScreenName.CreateScreen) {
+        navigation.dispatch(StackActions.push(tab));
+      } else {
+        navigation.dispatch(TabActions.jumpTo(tab));
+        setTab(tab);
+      }
     },
     [navigation],
   );
