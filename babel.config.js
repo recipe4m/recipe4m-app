@@ -22,6 +22,7 @@ module.exports = {
           '@asset': './src/application/asset',
           '@reducer': './src/application/reducer',
           '@navigation': './src/application/navigation',
+          '@lib': './src/application/lib',
           '@application': './src/application',
           '@common': './src/presentation/common',
           '@presentation': './src/presentation',

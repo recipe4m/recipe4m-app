@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
+import React, { useEffect } from 'react';
 import store, { persistor } from './src/application/store';
 
 import { ActivityIndicator } from 'react-native';
@@ -7,7 +8,6 @@ import { DialogProvider } from '@application/context/DialogContext';
 import Navigation from './src/application/navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import React from 'react';
 import StackNavigator from '@navigation/StackNavigator';
 import ThemeView from '@common/component/ThemeView';
 
