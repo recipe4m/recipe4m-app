@@ -1,6 +1,8 @@
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
+export const CHANNEL_IDS = ['recipe4m_default', 'recipe4m_timer'];
+
 function configure() {
   // Must be outside of any component LifeCycle (such as `componentDidMount`).
   PushNotification.configure({
