@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import BottomTabItemLabel from './BottomTabItemLabel';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import { Size } from '@style/Size';
 import useTheme from '@common/hook/useTheme';
 
 export interface Item {
@@ -48,8 +49,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 48,
-    height: 48,
+    width: Size.BOTTOM_TAB_BAR_WIDTH,
+    height: Size.BOTTOM_TAB_BAR_HEIGHT,
     marginVertical: 1,
   },
 });
