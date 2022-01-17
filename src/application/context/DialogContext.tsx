@@ -1,11 +1,12 @@
 import Dialog, { DialogRef } from '@common/component/dialog/Dialog';
-import { TimerDialogOptions } from '@common/component/dialog/TimerDialog';
 import React, {
-  createContext,
   PropsWithChildren,
+  createContext,
   useCallback,
   useContext,
 } from 'react';
+
+import { TimerDialogOptions } from '@common/component/dialog/TimerDialog';
 import { useRef } from 'react';
 
 export interface DialogProviderProps {}

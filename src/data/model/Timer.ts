@@ -1,7 +1,7 @@
-type State = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'END';
+type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'END';
 
 export interface TimerEvent {
-  state: State;
+  status: Status;
   timeout: number;
 }
 type EventName = 'start' | 'run' | 'pause' | 'end';
@@ -18,14 +18,14 @@ export class Timer {
   /**
    * interval
    */
-  private _interval: NodeJS.Timer | null = null;
+  private _interval: number | null = null;
 
   /**
-   * state
+   * status
    */
-  private _state: State = 'READY';
+  private _status: Status = 'READY';
   get state() {
-    return this._state;
+    return this._status;
   }
 
   /**
@@ -43,19 +43,19 @@ export class Timer {
   }
 
   private get event() {
-    return { state: this._state, timeout: this._timeout };
+    return { status: this._status, timeout: this._timeout };
   }
 
   start() {
     if (this._interval) throw new Error('Timer has already started.');
-    this._state = 'START';
+    this._status = 'START';
     this._excuteEventListener('start');
     this.run();
   }
 
   pause() {
     if (!this._interval) throw new Error('Timer is not running.');
-    this._state = 'PAUSE';
+    this._status = 'PAUSE';
     clearInterval(this._interval);
     this._interval = null;
     this._excuteEventListener('pause');
@@ -63,7 +63,7 @@ export class Timer {
 
   run() {
     if (this._interval) throw new Error('Timer has already run.');
-    this._state = 'RUN';
+    this._status = 'RUN';
     this._excuteEventListener('run');
     this._interval = setInterval(() => {
       this._timeout -= Timer.INTERVAL;
@@ -74,7 +74,7 @@ export class Timer {
 
   end() {
     if (!this._interval) throw new Error('Timer is not running');
-    this._state = 'END';
+    this._status = 'END';
     clearInterval(this._interval);
     this._interval = null;
     this._excuteEventListener('end');
