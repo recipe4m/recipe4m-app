@@ -1,4 +1,4 @@
-type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'STOP' | 'END';
+export type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'STOP' | 'END';
 
 export interface TimerEvent {
   status: Status;
@@ -13,16 +13,19 @@ export class Timer {
   static CLOCK_INTERVAL = 100;
 
   /**
-   * originTimeout(ms)
-   */
-  private _originTimeout: number;
-
-  /**
    *
    */
   private _timeout: number;
   get timeout() {
     return this._timeout;
+  }
+
+  /**
+   * remainTimeout(ms)
+   */
+  private _remainTimeout: number;
+  get remainTimeout() {
+    return this._remainTimeout;
   }
 
   /**
@@ -55,15 +58,15 @@ export class Timer {
   };
 
   constructor(timeout: number) {
-    this._originTimeout = timeout;
     this._timeout = timeout;
+    this._remainTimeout = timeout;
   }
 
   private get event() {
     return {
       status: this._status,
       timeout: this._timeout,
-      progress: this._timeout / this._originTimeout,
+      progress: this._remainTimeout / this._timeout,
     };
   }
 
@@ -79,9 +82,9 @@ export class Timer {
     this._status = 'RUN';
     this._excuteEventListener('run');
     this._interval = setInterval(() => {
-      this._timeout -= Timer.CLOCK_INTERVAL;
+      this._remainTimeout -= Timer.CLOCK_INTERVAL;
       this._excuteEventListener('run');
-      if (this._timeout < 0) this.end();
+      if (this._remainTimeout < 0) this.end();
     }, Timer.CLOCK_INTERVAL);
   }
 
@@ -98,9 +101,9 @@ export class Timer {
     this._status = 'RUN';
     this._excuteEventListener('resume');
     this._interval = setInterval(() => {
-      this._timeout -= Timer.CLOCK_INTERVAL;
+      this._remainTimeout -= Timer.CLOCK_INTERVAL;
       this._excuteEventListener('run');
-      if (this._timeout < 0) this.end();
+      if (this._remainTimeout < 0) this.end();
     }, Timer.CLOCK_INTERVAL);
   }
 

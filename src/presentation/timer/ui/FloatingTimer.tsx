@@ -3,10 +3,13 @@ import FloatingTimerView from './FloatingTimerView';
 import React from 'react';
 import { Size } from '@style/Size';
 import { StyleSheet } from 'react-native';
+import useTimer from '../hook/useTimer';
 
 interface FloatingTimerProps {}
 
 export default function FloatingTimer({}: FloatingTimerProps) {
+  const timer = useTimer();
+
   return (
     <FloatingTimerView style={[styles.container]}>
       <CircularProgressBar progress={0.7} />

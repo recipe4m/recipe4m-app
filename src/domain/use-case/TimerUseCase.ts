@@ -42,7 +42,7 @@ export class TimersUseCase {
 
     timer.start();
 
-    return this._timers;
+    return timer;
   }
 
   removeTimer(timer: Timer) {

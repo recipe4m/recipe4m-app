@@ -24,6 +24,8 @@ export class NotificationTimer extends Timer {
 
   notificationId: string = uuidv4();
 
+  date: Date | null = null;
+
   constructor({ timeout, ...options }: NotificationTimerOptions) {
     super(timeout);
     this._pushNotificationScheduleObject = options;
@@ -33,11 +35,12 @@ export class NotificationTimer extends Timer {
     super.start();
 
     this.notificationId = uuidv4();
+    this.date = new Date(Date.now() + this.timeout);
 
     PushNotification.localNotificationSchedule({
       ...defaultPushNotificationScheduleObject,
       ...this._pushNotificationScheduleObject,
-      date: new Date(Date.now() + this.timeout),
+      date: this.date,
     });
   }
 
