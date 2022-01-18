@@ -1,19 +1,33 @@
-type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'END';
+type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'STOP' | 'END';
 
 export interface TimerEvent {
   status: Status;
   timeout: number;
+  progress: number;
 }
-type EventName = 'start' | 'run' | 'pause' | 'end';
+
+type EventName = 'start' | 'run' | 'pause' | 'resume' | 'stop' | 'end';
 type EventCallback = (event: TimerEvent) => void;
 
 export class Timer {
-  static INTERVAL = 100;
+  static CLOCK_INTERVAL = 100;
 
   /**
-   * timeout(ms)
+   * originTimeout(ms)
+   */
+  private _originTimeout: number;
+
+  /**
+   *
    */
   private _timeout: number;
+  get timeout() {
+    return this._timeout;
+  }
+
+  /**
+   * remain
+   */
 
   /**
    * interval
@@ -35,15 +49,22 @@ export class Timer {
     start: [],
     run: [],
     pause: [],
+    resume: [],
+    stop: [],
     end: [],
   };
 
   constructor(timeout: number) {
+    this._originTimeout = timeout;
     this._timeout = timeout;
   }
 
   private get event() {
-    return { status: this._status, timeout: this._timeout };
+    return {
+      status: this._status,
+      timeout: this._timeout,
+      progress: this._timeout / this._originTimeout,
+    };
   }
 
   start() {
@@ -51,6 +72,17 @@ export class Timer {
     this._status = 'START';
     this._excuteEventListener('start');
     this.run();
+  }
+
+  run() {
+    if (this._interval) throw new Error('Timer has already run.');
+    this._status = 'RUN';
+    this._excuteEventListener('run');
+    this._interval = setInterval(() => {
+      this._timeout -= Timer.CLOCK_INTERVAL;
+      this._excuteEventListener('run');
+      if (this._timeout < 0) this.end();
+    }, Timer.CLOCK_INTERVAL);
   }
 
   pause() {
@@ -61,21 +93,26 @@ export class Timer {
     this._excuteEventListener('pause');
   }
 
-  run() {
-    if (this._interval) throw new Error('Timer has already run.');
+  resume() {
+    if (this._status !== 'PAUSE') throw new Error('Timer is not pause.');
     this._status = 'RUN';
-    this._excuteEventListener('run');
+    this._excuteEventListener('resume');
     this._interval = setInterval(() => {
-      this._timeout -= Timer.INTERVAL;
+      this._timeout -= Timer.CLOCK_INTERVAL;
       this._excuteEventListener('run');
       if (this._timeout < 0) this.end();
-    }, Timer.INTERVAL);
+    }, Timer.CLOCK_INTERVAL);
+  }
+
+  stop() {
+    this._status = 'STOP';
+    this._excuteEventListener('stop');
+    this.end();
   }
 
   end() {
-    if (!this._interval) throw new Error('Timer is not running');
+    if (this._interval) clearInterval(this._interval);
     this._status = 'END';
-    clearInterval(this._interval);
     this._interval = null;
     this._excuteEventListener('end');
   }

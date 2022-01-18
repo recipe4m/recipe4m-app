@@ -26,6 +26,7 @@ module.exports = {
           '@application': './src/application',
           '@common': './src/presentation/common',
           '@presentation': './src/presentation',
+          '@model': './src/data/model',
           '@remote': './src/data/remote',
           '@local': './src/data/local',
           '@useCase': './src/domain/use-case',

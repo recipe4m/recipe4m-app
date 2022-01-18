@@ -1,15 +1,8 @@
-import Animated, {
-  Clock,
-  Easing,
-  clockRunning,
-  runOnJS,
-} from 'react-native-reanimated';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-
 import CircularProgressBar from '../../common/component/CircularProgressBar';
 import FloatingTimerView from './FloatingTimerView';
 import React from 'react';
 import { Size } from '@style/Size';
+import { StyleSheet } from 'react-native';
 
 interface FloatingTimerProps {}
 
