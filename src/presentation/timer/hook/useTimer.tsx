@@ -1,8 +1,21 @@
+import { useEffect, useMemo } from 'react';
+
+import { RootState } from '@reducer';
 import timerUseCase from '@useCase/TimerUseCase';
-import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function useTimer() {
-  const timers = useMemo(() => timerUseCase.timers, []);
+  console.log('useTimer');
+  const timer = useSelector(
+    ({ timer }: RootState) => timer,
+    (left, right) => left === right,
+  );
 
-  return {};
+  const timers = useMemo(() => timerUseCase.timers, [timer]);
+
+  useEffect(() => {
+    console.log('useEffect', timer);
+  }, [timer]);
+
+  return { timers };
 }

@@ -1,4 +1,7 @@
-import { Timer, TimerEvent } from 'src/data/model/Timer';
+import * as TimerReducer from '@reducer/Timer';
+
+import { NotificationTimer } from '@model/NotificationTimer';
+import { TimerEvent } from '@model/Timer';
 
 export interface TimerOptions {
   timeout: number;
@@ -11,7 +14,7 @@ export interface TimerOptions {
 }
 
 export class TimersUseCase {
-  private _timers: Timer[] = [];
+  private _timers: NotificationTimer[] = [];
   get timers() {
     return this._timers;
   }
@@ -49,6 +52,8 @@ export class TimersUseCase {
     timer.stop();
     this._timers = this._timers.filter(_timer => _timer !== timer);
   }
+
+  sync(timers: TimerReducer.Timer[]) {}
 }
 
 export default new TimersUseCase();

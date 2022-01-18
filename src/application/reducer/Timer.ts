@@ -55,3 +55,8 @@ export const timerSlice = createSlice<TimerState, TimerReducer, 'timer'>({
     },
   },
 });
+
+export const { addTimer, removeTimer, setTimer, setTimers } =
+  timerSlice.actions;
+
+export default timerSlice.reducer;

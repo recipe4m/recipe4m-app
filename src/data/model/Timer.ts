@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 export type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'STOP' | 'END';
 
 export interface TimerEvent {
@@ -9,8 +10,20 @@ export interface TimerEvent {
 type EventName = 'start' | 'run' | 'pause' | 'resume' | 'stop' | 'end';
 type EventCallback = (event: TimerEvent) => void;
 
+export interface TimerOptions {
+  id?: string;
+  status?: Status;
+  timeout: number;
+  remainTimeout?: number;
+}
+
 export class Timer {
   static CLOCK_INTERVAL = 100;
+
+  /**
+   *
+   */
+  id: string;
 
   /**
    *
@@ -57,9 +70,16 @@ export class Timer {
     end: [],
   };
 
-  constructor(timeout: number) {
+  constructor({
+    id = uuidv4(),
+    status = 'READY',
+    timeout,
+    remainTimeout,
+  }: TimerOptions) {
+    this.id = id;
+    this._status = status;
     this._timeout = timeout;
-    this._remainTimeout = timeout;
+    this._remainTimeout = remainTimeout || timeout;
   }
 
   private get event() {

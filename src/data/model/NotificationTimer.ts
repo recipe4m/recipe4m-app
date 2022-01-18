@@ -1,18 +1,14 @@
 import PushNotification, {
   PushNotificationScheduleObject,
 } from 'react-native-push-notification';
+import { Timer, TimerOptions } from './Timer';
 
 import { Notification } from '@model/Notification';
-import { Timer } from './Timer';
 import { v4 as uuidv4 } from 'uuid';
 
-type PushNotificationScheduleOptions = Omit<
-  PushNotificationScheduleObject,
-  'channelId' | 'date'
->;
-
-interface NotificationTimerOptions extends PushNotificationScheduleOptions {
-  timeout: number;
+interface NotificationTimerOptions extends TimerOptions {
+  date?: Date | null;
+  notificationObject: PushNotificationScheduleObject;
 }
 
 const defaultPushNotificationScheduleObject = {
@@ -20,27 +16,32 @@ const defaultPushNotificationScheduleObject = {
 };
 
 export class NotificationTimer extends Timer {
-  private _pushNotificationScheduleObject: PushNotificationScheduleOptions;
+  private _notificationObject: PushNotificationScheduleObject;
 
-  notificationId: string = uuidv4();
+  private notificationId: string = uuidv4();
 
-  date: Date | null = null;
+  private _date: Date | null;
 
-  constructor({ timeout, ...options }: NotificationTimerOptions) {
-    super(timeout);
-    this._pushNotificationScheduleObject = options;
+  constructor({
+    date = null,
+    notificationObject,
+    ...timerOptions
+  }: NotificationTimerOptions) {
+    super(timerOptions);
+    this._date = date;
+    this._notificationObject = notificationObject;
   }
 
   start(): void {
     super.start();
 
     this.notificationId = uuidv4();
-    this.date = new Date(Date.now() + this.timeout);
+    this._date = new Date(Date.now() + this.timeout);
 
     PushNotification.localNotificationSchedule({
       ...defaultPushNotificationScheduleObject,
-      ...this._pushNotificationScheduleObject,
-      date: this.date,
+      ...this._notificationObject,
+      date: this._date,
     });
   }
 
