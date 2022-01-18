@@ -32,6 +32,8 @@ export interface Color {
 
   FLOATING_TIMER_BACKGROUND: string;
   FLOATING_TIMER_BORDER: string;
+
+  PROGRESS_BAR_BACKGROUND: string;
 }
 
 const LightDynamicColor: Color = {
@@ -63,6 +65,8 @@ const LightDynamicColor: Color = {
 
   FLOATING_TIMER_BACKGROUND: ColorPalette.ORANGE_300,
   FLOATING_TIMER_BORDER: ColorPalette.ORANGE_300,
+
+  PROGRESS_BAR_BACKGROUND: ColorPalette.ORANGE_400,
 };
 
 const DarkDynamicColor: Color = {
@@ -94,6 +98,8 @@ const DarkDynamicColor: Color = {
 
   FLOATING_TIMER_BACKGROUND: ColorPalette.GRAY_900,
   FLOATING_TIMER_BORDER: ColorPalette.ORANGE_900,
+
+  PROGRESS_BAR_BACKGROUND: ColorPalette.GRAY_800,
 };
 
 export const DynamicColor = {
