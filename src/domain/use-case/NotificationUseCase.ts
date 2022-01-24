@@ -3,51 +3,16 @@ import PushNotification, {
   Importance,
 } from 'react-native-push-notification';
 
+import { Notification } from '@model/Notification';
+
 export class NotificationUseCase {
-  static CHANNELS: ChannelObject[] = [
-    {
-      channelId: 'recipe4m_timer',
-      channelName: 'Timer',
-      channelDescription: 'Channel for notification when timer completes',
-      soundName: 'default',
-      importance: Importance.HIGH,
-      vibrate: true,
-      playSound: true,
-    },
-    {
-      channelId: 'recipe4m_interaction',
-      channelName: 'Interaction',
-      channelDescription:
-        'Notification channel about user interaction. For example, like, subscribe, etc',
-      soundName: 'default',
-      importance: Importance.DEFAULT,
-      vibrate: true,
-      playSound: true,
-    },
-    {
-      channelId: 'recipe4m_information',
-      channelName: 'Information',
-      channelDescription:
-        'Notification channels for subscriptions and interests',
-      soundName: 'default',
-      importance: Importance.DEFAULT,
-      vibrate: true,
-      playSound: true,
-    },
-    {
-      channelId: 'recipe4m_marketing',
-      channelName: 'Marketing',
-      channelDescription: 'Notification channels about marketing',
-      soundName: 'default',
-      importance: Importance.MIN,
-      vibrate: false,
-      playSound: false,
-    },
-  ];
+  private getChannels() {
+    return Object.values(Notification.Channel);
+  }
 
   syncChannels() {
     PushNotification.getChannels(channelIds => {
-      NotificationUseCase.CHANNELS.forEach(channel => {
+      this.getChannels().forEach(channel => {
         if (!channelIds.some(channelId => channelId === channel.channelId)) {
           PushNotification.createChannel(channel, (created: boolean) => {
             if (created) {
@@ -64,9 +29,7 @@ export class NotificationUseCase {
       });
       channelIds.forEach(channelId => {
         if (
-          !NotificationUseCase.CHANNELS.some(
-            channel => channel.channelId === channelId,
-          )
+          !this.getChannels().some(channel => channel.channelId === channelId)
         ) {
           PushNotification.deleteChannel(channelId);
         }

@@ -29,6 +29,11 @@ export interface Color {
   BUTTON_FILL_LABEL: string;
   BUTTON_OUTLINE_BACKGROUND: string;
   BUTTON_OUTLINE_LABEL: string;
+
+  FLOATING_TIMER_BACKGROUND: string;
+  FLOATING_TIMER_BORDER: string;
+
+  PROGRESS_BAR_BACKGROUND: string;
 }
 
 const LightDynamicColor: Color = {
@@ -57,6 +62,11 @@ const LightDynamicColor: Color = {
   BUTTON_FILL_LABEL: ColorPalette.WHITE,
   BUTTON_OUTLINE_BACKGROUND: ColorPalette.ORANGE_100,
   BUTTON_OUTLINE_LABEL: ColorPalette.ORANGE_200,
+
+  FLOATING_TIMER_BACKGROUND: ColorPalette.ORANGE_300,
+  FLOATING_TIMER_BORDER: ColorPalette.ORANGE_300,
+
+  PROGRESS_BAR_BACKGROUND: ColorPalette.ORANGE_400,
 };
 
 const DarkDynamicColor: Color = {
@@ -85,6 +95,11 @@ const DarkDynamicColor: Color = {
   BUTTON_FILL_LABEL: ColorPalette.WHITE,
   BUTTON_OUTLINE_BACKGROUND: ColorPalette.ORANGE_100,
   BUTTON_OUTLINE_LABEL: ColorPalette.ORANGE_200,
+
+  FLOATING_TIMER_BACKGROUND: ColorPalette.GRAY_900,
+  FLOATING_TIMER_BORDER: ColorPalette.ORANGE_900,
+
+  PROGRESS_BAR_BACKGROUND: ColorPalette.GRAY_800,
 };
 
 export const DynamicColor = {
