@@ -51,7 +51,7 @@ export class TimersUseCase {
     return timer;
   }
 
-  removeTimer(timer: Timer) {
+  removeTimer(timer: NotificationTimer) {
     timer.stop();
     this._timers = this._timers.filter(_timer => _timer !== timer);
   }

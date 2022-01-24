@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { getRandomId } from '@lib/random';
 export type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'STOP' | 'END';
 
 export interface TimerEvent {
@@ -71,7 +71,7 @@ export class Timer {
   };
 
   constructor({
-    id = uuidv4(),
+    id = getRandomId(),
     status = 'READY',
     timeout,
     remainTimeout,

@@ -4,10 +4,11 @@ import PushNotification, {
 import { Timer, TimerOptions } from './Timer';
 
 import { Notification } from '@model/Notification';
-import { v4 as uuidv4 } from 'uuid';
+import { getRandomId } from '@lib/random';
 
 export interface NotificationTimerOptions extends TimerOptions {
   date?: Date | null;
+  notificationId?: string;
   notificationObject: PushNotificationScheduleObject;
 }
 
@@ -18,24 +19,25 @@ const defaultPushNotificationScheduleObject = {
 export class NotificationTimer extends Timer {
   private _notificationObject: PushNotificationScheduleObject;
 
-  private notificationId: string = uuidv4();
+  private _notificationId: string;
 
   private _date: Date | null;
 
   constructor({
     date = null,
+    notificationId = getRandomId(),
     notificationObject,
     ...timerOptions
   }: NotificationTimerOptions) {
     super(timerOptions);
     this._date = date;
+    this._notificationId = notificationId;
     this._notificationObject = notificationObject;
   }
 
   start(): void {
     super.start();
 
-    this.notificationId = uuidv4();
     this._date = new Date(Date.now() + this.timeout);
 
     PushNotification.localNotificationSchedule({
@@ -48,7 +50,7 @@ export class NotificationTimer extends Timer {
   pause(): void {
     super.pause();
 
-    PushNotification.cancelLocalNotification(this.notificationId);
+    PushNotification.cancelLocalNotification(this._notificationId);
   }
 
   resume(): void {
@@ -58,6 +60,6 @@ export class NotificationTimer extends Timer {
   stop(): void {
     super.stop();
 
-    PushNotification.cancelLocalNotification(this.notificationId);
+    PushNotification.cancelLocalNotification(this._notificationId);
   }
 }

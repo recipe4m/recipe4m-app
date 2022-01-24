@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Animation } from '@style/Animation';
 import { ColorPalette } from '@style/ColorPalette';
 import { DefaultOptions } from './interface';
 import DialogView from './DialogView';
@@ -12,9 +11,11 @@ import { ITEM_HEIGHT } from './TimeListItem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TimeList from './TimeList';
 import { Visible } from './DimmedView';
+import timerUseCase from '@useCase/TimerUseCase';
 
 export interface TimerDialogOptions extends DefaultOptions {
   time: number;
+  message: string;
 }
 
 interface TimerDialogProps {
@@ -34,6 +35,18 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
     return { hour, minute, second };
   }, [time]);
 
+  const handlePressStart = useCallback(() => {
+    const timer = timerUseCase.addTimer({
+      timeout: time,
+      notificationObject: {
+        date: new Date(Date.now() + time),
+        message: options.message,
+      },
+    });
+
+    console.log(timer);
+  }, [time]);
+
   return (
     <DialogView visible={visible} options={options}>
       <Icon
@@ -49,7 +62,7 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
         <Heading style={styles.colon}>:</Heading>
         <TimeList initialValue={second} />
       </View>
-      <FullButton>Start</FullButton>
+      <FullButton onPress={handlePressStart}>Start</FullButton>
     </DialogView>
   );
 }
