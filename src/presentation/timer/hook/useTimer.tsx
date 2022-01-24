@@ -5,7 +5,6 @@ import timerUseCase from '@useCase/TimerUseCase';
 import { useSelector } from 'react-redux';
 
 export default function useTimer() {
-  console.log('useTimer');
   const timer = useSelector(
     ({ timer }: RootState) => timer,
     (left, right) => left === right,

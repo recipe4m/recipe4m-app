@@ -18,7 +18,7 @@ export default function CircleProgressBar({
   progress,
   size = 48,
   strokeWidth = 4,
-  strokeColor = ColorPalette.ORANGE_100,
+  strokeColor = ColorPalette.ORANGE_400,
 }: CircleProgressBarProps) {
   const { colors } = useTheme();
 

@@ -1,7 +1,8 @@
 import * as TimerReducer from '@reducer/Timer';
 
+import { Timer, TimerEvent } from '@model/Timer';
+
 import { NotificationTimer } from '@model/NotificationTimer';
-import { TimerEvent } from '@model/Timer';
 
 export interface TimerOptions {
   timeout: number;
@@ -28,7 +29,7 @@ export class TimersUseCase {
     onStop,
     onEnd,
   }: TimerOptions) {
-    const timer = new Timer(timeout);
+    const timer = new NotificationTimer({ timeout });
 
     if (onStart) timer.addEventListener('start', onStart);
     if (onRun) timer.addEventListener('run', onRun);
