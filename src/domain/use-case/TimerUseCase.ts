@@ -1,10 +1,12 @@
 import * as TimerReducer from '@reducer/Timer';
 
+import {
+  NotificationTimer,
+  NotificationTimerOptions,
+} from '@model/NotificationTimer';
 import { Timer, TimerEvent } from '@model/Timer';
 
-import { NotificationTimer } from '@model/NotificationTimer';
-
-export interface TimerOptions {
+export interface TimerOptions extends NotificationTimerOptions {
   timeout: number;
   onStart?: (event: TimerEvent) => void;
   onRun?: (Event: TimerEvent) => void;
@@ -21,15 +23,15 @@ export class TimersUseCase {
   }
 
   addTimer({
-    timeout,
     onStart,
     onRun,
     onPause,
     onResume,
     onStop,
     onEnd,
+    ...timerOptions
   }: TimerOptions) {
-    const timer = new NotificationTimer({ timeout });
+    const timer = new NotificationTimer(timerOptions);
 
     if (onStart) timer.addEventListener('start', onStart);
     if (onRun) timer.addEventListener('run', onRun);

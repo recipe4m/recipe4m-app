@@ -167,7 +167,7 @@ export default function TimeList({
 const styles = StyleSheet.create({
   container: {
     width: 80,
-    height: 250,
+    height: ITEM_HEIGHT * 5,
   },
   selectedArea: {
     position: 'absolute',

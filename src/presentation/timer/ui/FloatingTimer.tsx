@@ -10,6 +10,8 @@ interface FloatingTimerProps {}
 export default function FloatingTimer({}: FloatingTimerProps) {
   const timer = useTimer();
 
+  if (timer.timers.length === 0) return null;
+
   return (
     <FloatingTimerView style={[styles.container]}>
       <CircularProgressBar progress={0.7} />

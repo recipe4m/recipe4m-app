@@ -32,7 +32,9 @@ function Dialog(props: DialogProps, ref: ForwardedRef<DialogRef>) {
 
   const handleInvisible = useCallback(() => {
     if (options.onClose) options.onClose();
-    setVisible('invisible');
+    setTimeout(() => {
+      setVisible('invisible');
+    }, 20);
   }, [options]);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow

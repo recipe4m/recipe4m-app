@@ -23,7 +23,6 @@ interface TimerDialogProps {
 }
 
 export default function TimerDialog({ visible, options }: TimerDialogProps) {
-  const [ready, setReady] = useState<boolean>(false);
   const [time, setTime] = useState<number>(options.time);
 
   const { hour, minute, second } = useMemo(() => {
@@ -34,12 +33,6 @@ export default function TimerDialog({ visible, options }: TimerDialogProps) {
     const second = remain % 60;
     return { hour, minute, second };
   }, [time]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      // setReady(true);
-    }, Animation.DIALOG_DURATION * 0.9);
-  }, []);
 
   return (
     <DialogView visible={visible} options={options}>

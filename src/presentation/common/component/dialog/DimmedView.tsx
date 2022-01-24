@@ -24,7 +24,7 @@ export default function DimmedView({
   onPress,
   onInvisible,
 }: PropsWithChildren<DimmedViewProps>) {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<number | null>(null);
   const opacity = useSharedValue<number>(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -42,10 +42,10 @@ export default function DimmedView({
         withTiming(1, { duration: Animation.DIALOG_DURATION }),
       );
     } else if (visible === 'disappearing') {
-      opacity.value = withTiming(0, { duration: Animation.DIALOG_DURATION });
       timeoutRef.current = setTimeout(() => {
         onInvisible();
       }, Animation.DIALOG_DURATION);
+      opacity.value = withTiming(0, { duration: Animation.DIALOG_DURATION });
     }
   }, [onInvisible, opacity, visible]);
 

@@ -6,7 +6,7 @@ import { Timer, TimerOptions } from './Timer';
 import { Notification } from '@model/Notification';
 import { v4 as uuidv4 } from 'uuid';
 
-interface NotificationTimerOptions extends TimerOptions {
+export interface NotificationTimerOptions extends TimerOptions {
   date?: Date | null;
   notificationObject: PushNotificationScheduleObject;
 }
