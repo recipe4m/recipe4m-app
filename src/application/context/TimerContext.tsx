@@ -52,7 +52,6 @@ export function TimerProvider({
             dispatch(setTimer({ ...timer, status: 'RUN' }));
           },
           onEnd: () => {
-            console.log('called onEnd');
             dispatch(removeTimer(timer));
           },
         });
@@ -64,10 +63,18 @@ export function TimerProvider({
 
   useEffect(() => {
     PushNotification.getScheduledLocalNotifications(notifications => {
+      notifications.forEach(({ id }) =>
+        PushNotification.cancelLocalNotification(id),
+      );
+
+      const validNotifications = notifications.filter(
+        ({ date }) => date.valueOf() > Date.now(),
+      );
+
       const timers = timer.timers.filter(
         timer =>
           timer.status === 'PAUSE' ||
-          notifications.some(({ id }) => timer.id === id),
+          validNotifications.some(({ id }) => timer.id === id),
       );
 
       dispatch(setTimers(timers));

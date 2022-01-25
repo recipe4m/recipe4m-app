@@ -148,20 +148,24 @@ function TimeList(
     if (ref as MutableRefObject<TimeListRef>) {
       (ref as MutableRefObject<TimeListRef>).current = {
         moveToNext: () => {
-          translateY.value = withTiming(translateY.value - ITEM_HEIGHT, {
-            duration: 100,
-          });
           let _value = value + 1;
           if (_value >= range) _value -= range;
           setValue(_value);
-        },
-        moveToPrev: () => {
-          translateY.value = withTiming(translateY.value + ITEM_HEIGHT, {
+          const _translateY = translateY.value;
+          translateY.value = _translateY + ITEM_HEIGHT;
+          translateY.value = withTiming(_translateY, {
             duration: 100,
           });
+        },
+        moveToPrev: () => {
           let _value = value - 1;
           if (_value < 0) _value += range;
           setValue(_value);
+          const _translateY = translateY.value;
+          translateY.value = _translateY - ITEM_HEIGHT;
+          translateY.value = withTiming(_translateY, {
+            duration: 100,
+          });
         },
       };
     }

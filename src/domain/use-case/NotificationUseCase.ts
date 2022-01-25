@@ -1,9 +1,5 @@
-import PushNotification, {
-  ChannelObject,
-  Importance,
-} from 'react-native-push-notification';
-
 import { Notification } from '@model/Notification';
+import PushNotification from 'react-native-push-notification';
 
 export class NotificationUseCase {
   private getChannels() {

@@ -14,6 +14,8 @@ export interface NotificationTimerOptions extends TimerOptions {
 
 const defaultPushNotificationScheduleObject = {
   channelId: Notification.Channel.Timer.channelId,
+  allowWhileIdle: true,
+  repeatTime: 1,
 };
 
 export class NotificationTimer extends Timer {
@@ -38,6 +40,13 @@ export class NotificationTimer extends Timer {
 
   start(): void {
     super.start();
+
+    console.log({
+      ...defaultPushNotificationScheduleObject,
+      ...this._notificationObject,
+      date: this._date as Date,
+      id: this._id,
+    });
 
     PushNotification.localNotificationSchedule({
       ...defaultPushNotificationScheduleObject,
