@@ -33,7 +33,7 @@ export default function TimerCard() {
 
       openTimer({
         type: 'timer',
-        time: 1 * 60 * 1000,
+        time: 1 * 10 * 1000,
         layout: { x, y, width, height },
         source: require('@asset/image/ramen.jpg'),
         onOpen: handleOpen,

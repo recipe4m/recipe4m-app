@@ -18,48 +18,55 @@ const defaultPushNotificationScheduleObject = {
 
 export class NotificationTimer extends Timer {
   private _notificationObject: PushNotificationScheduleObject;
+  get notificationObject() {
+    return this._notificationObject;
+  }
 
-  private _notificationId: string;
-
-  private _date: Date | null;
+  private _id: string;
 
   constructor({
+    id = getRandomId(),
     date = null,
-    notificationId = getRandomId(),
     notificationObject,
     ...timerOptions
   }: NotificationTimerOptions) {
-    super(timerOptions);
+    super({ ...timerOptions, id });
+    this._id = id;
     this._date = date;
-    this._notificationId = notificationId;
     this._notificationObject = notificationObject;
   }
 
   start(): void {
     super.start();
 
-    this._date = new Date(Date.now() + this.timeout);
-
     PushNotification.localNotificationSchedule({
       ...defaultPushNotificationScheduleObject,
       ...this._notificationObject,
-      date: this._date,
+      date: this._date as Date,
+      id: this._id,
     });
   }
 
   pause(): void {
     super.pause();
 
-    PushNotification.cancelLocalNotification(this._notificationId);
+    PushNotification.cancelLocalNotification(this._id);
   }
 
   resume(): void {
-    this.start();
+    super.resume();
+
+    PushNotification.localNotificationSchedule({
+      ...defaultPushNotificationScheduleObject,
+      ...this._notificationObject,
+      date: this._date as Date,
+      id: this._id,
+    });
   }
 
   stop(): void {
     super.stop();
 
-    PushNotification.cancelLocalNotification(this._notificationId);
+    PushNotification.cancelLocalNotification(this._id);
   }
 }

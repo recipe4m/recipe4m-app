@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ColorPalette } from '@style/ColorPalette';
@@ -11,7 +17,10 @@ import { ITEM_HEIGHT } from './TimeListItem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TimeList from './TimeList';
 import { Visible } from './DimmedView';
+import { addTimer } from '@reducer/Timer';
+import { getRandomId } from '@lib/random';
 import timerUseCase from '@useCase/TimerUseCase';
+import { useDispatch } from 'react-redux';
 
 export interface TimerDialogOptions extends DefaultOptions {
   time: number;
@@ -20,32 +29,49 @@ export interface TimerDialogOptions extends DefaultOptions {
 
 interface TimerDialogProps {
   visible: Visible;
+  close: () => void;
   options: TimerDialogOptions;
 }
 
-export default function TimerDialog({ visible, options }: TimerDialogProps) {
-  const [time, setTime] = useState<number>(options.time);
+export default function TimerDialog({
+  visible,
+  close,
+  options,
+}: TimerDialogProps) {
+  const timeoutRef = useRef<number>(options.time);
+  const dispatch = useDispatch();
 
   const { hour, minute, second } = useMemo(() => {
+    const time = options.time;
     let remain = time / 1000;
     const hour = Math.floor(remain / 3600);
     remain = remain % 3600;
     const minute = Math.floor(remain / 60);
     const second = remain % 60;
     return { hour, minute, second };
-  }, [time]);
+  }, [options.time]);
 
   const handlePressStart = useCallback(() => {
-    const timer = timerUseCase.addTimer({
-      timeout: time,
-      notificationObject: {
-        date: new Date(Date.now() + time),
-        message: options.message,
-      },
-    });
-
-    console.log(timer);
-  }, [time]);
+    const timeout = timeoutRef.current;
+    const id = getRandomId();
+    const date = new Date(Date.now() + timeout);
+    const notificationObject = {
+      id,
+      date,
+      message: options.message,
+    };
+    dispatch(
+      addTimer({
+        id,
+        status: 'READY',
+        timeout,
+        remainTimeout: timeout,
+        date,
+        notificationObject,
+      }),
+    );
+    close();
+  }, []);
 
   return (
     <DialogView visible={visible} options={options}>

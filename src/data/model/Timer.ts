@@ -2,8 +2,10 @@ import { getRandomId } from '@lib/random';
 export type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'STOP' | 'END';
 
 export interface TimerEvent {
+  target: Timer;
   status: Status;
   timeout: number;
+  remainTimeout: number;
   progress: number;
 }
 
@@ -54,9 +56,14 @@ export class Timer {
    * status
    */
   private _status: Status = 'READY';
-  get state() {
+  get status() {
     return this._status;
   }
+
+  /**
+   * date
+   */
+  protected _date: Date | null = null;
 
   /**
    * events
@@ -82,10 +89,12 @@ export class Timer {
     this._remainTimeout = remainTimeout || timeout;
   }
 
-  private get event() {
+  protected get event() {
     return {
+      target: this,
       status: this._status,
       timeout: this._timeout,
+      remainTimeout: this._remainTimeout,
       progress: this._remainTimeout / this._timeout,
     };
   }
@@ -93,6 +102,7 @@ export class Timer {
   start() {
     if (this._interval) throw new Error('Timer has already started.');
     this._status = 'START';
+    this._date = new Date(Date.now() + this._remainTimeout);
     this._excuteEventListener('start');
     this.run();
   }
@@ -102,7 +112,7 @@ export class Timer {
     this._status = 'RUN';
     this._excuteEventListener('run');
     this._interval = setInterval(() => {
-      this._remainTimeout -= Timer.CLOCK_INTERVAL;
+      this._remainTimeout = (this._date as Date).valueOf() - Date.now();
       this._excuteEventListener('run');
       if (this._remainTimeout < 0) this.end();
     }, Timer.CLOCK_INTERVAL);
@@ -120,8 +130,9 @@ export class Timer {
     if (this._status !== 'PAUSE') throw new Error('Timer is not pause.');
     this._status = 'RUN';
     this._excuteEventListener('resume');
+    this._date = new Date(Date.now() + this._remainTimeout);
     this._interval = setInterval(() => {
-      this._remainTimeout -= Timer.CLOCK_INTERVAL;
+      this._remainTimeout = (this._date as Date).valueOf() - Date.now();
       this._excuteEventListener('run');
       if (this._remainTimeout < 0) this.end();
     }, Timer.CLOCK_INTERVAL);
@@ -140,7 +151,7 @@ export class Timer {
     this._excuteEventListener('end');
   }
 
-  private _excuteEventListener(name: EventName) {
+  protected _excuteEventListener(name: EventName) {
     this._eventListener[name].forEach(callback => callback(this.event));
   }
 

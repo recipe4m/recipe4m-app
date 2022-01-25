@@ -1,22 +1,44 @@
+import React, { useEffect, useState } from 'react';
+
 import CircularProgressBar from '../../common/component/CircularProgressBar';
 import FloatingTimerView from './FloatingTimerView';
-import React from 'react';
+import { NotificationTimer } from '@model/NotificationTimer';
 import { Size } from '@style/Size';
 import { StyleSheet } from 'react-native';
-import useTimer from '../hook/useTimer';
+import { TimerEvent } from '@model/Timer';
+import { useTimer } from '@application/context/TimerContext';
 
 interface FloatingTimerProps {}
 
 export default function FloatingTimer({}: FloatingTimerProps) {
-  const timer = useTimer();
+  const { timers } = useTimer();
 
-  if (timer.timers.length === 0) return null;
+  console.log(timers);
+
+  if (timers.length === 0) return null;
 
   return (
     <FloatingTimerView style={[styles.container]}>
-      <CircularProgressBar progress={0.7} />
+      {timers.map(timer => (
+        <Timer key={timer.id} timer={timer} />
+      ))}
     </FloatingTimerView>
   );
+}
+
+function Timer({ timer }: { timer: NotificationTimer }) {
+  const [progress, setProgress] = useState<number>(1);
+
+  useEffect(() => {
+    const handleRun = ({ progress }: TimerEvent) => {
+      setProgress(progress);
+    };
+    timer.addEventListener('run', handleRun);
+    return () => {
+      timer.removeEventListener('run', handleRun);
+    };
+  }, [timer]);
+  return <CircularProgressBar progress={progress} />;
 }
 
 const styles = StyleSheet.create({

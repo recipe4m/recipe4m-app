@@ -11,6 +11,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import RootView from '@common/component/RootView';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import StackNavigator from '@navigation/StackNavigator';
+import { TimerProvider } from '@application/context/TimerContext';
 import useNotification from '@common/hook/useNotification';
 
 const queryClient = new QueryClient();
@@ -22,18 +23,20 @@ export default function App() {
     <ReduxProvider store={store}>
       <PersistGate persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <SafeAreaProvider>
-              <RootView>
-                <DialogProvider>
-                  <Navigation>
-                    <StackNavigator />
-                  </Navigation>
-                  <FloatingTimer />
-                </DialogProvider>
-              </RootView>
-            </SafeAreaProvider>
-          </AuthProvider>
+          <TimerProvider>
+            <AuthProvider>
+              <SafeAreaProvider>
+                <RootView>
+                  <DialogProvider>
+                    <Navigation>
+                      <StackNavigator />
+                    </Navigation>
+                    <FloatingTimer />
+                  </DialogProvider>
+                </RootView>
+              </SafeAreaProvider>
+            </AuthProvider>
+          </TimerProvider>
         </QueryClientProvider>
       </PersistGate>
     </ReduxProvider>

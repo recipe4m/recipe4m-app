@@ -33,6 +33,10 @@ export class TimersUseCase {
   }: TimerOptions) {
     const timer = new NotificationTimer(timerOptions);
 
+    timer.addEventListener('end', () => {
+      this._timers = this._timers.filter(_timer => _timer !== timer);
+    });
+
     if (onStart) timer.addEventListener('start', onStart);
     if (onRun) timer.addEventListener('run', onRun);
     if (onPause) timer.addEventListener('pause', onPause);
@@ -40,13 +44,9 @@ export class TimersUseCase {
     if (onStop) timer.addEventListener('stop', onStop);
     if (onEnd) timer.addEventListener('end', onEnd);
 
-    timer.addEventListener('end', () => {
-      this._timers = this._timers.filter(_timer => _timer !== timer);
-    });
-
     this._timers.push(timer);
 
-    timer.start();
+    if (timer.status === 'READY') timer.start();
 
     return timer;
   }
@@ -55,8 +55,6 @@ export class TimersUseCase {
     timer.stop();
     this._timers = this._timers.filter(_timer => _timer !== timer);
   }
-
-  sync(timers: TimerReducer.Timer[]) {}
 }
 
 export default new TimersUseCase();

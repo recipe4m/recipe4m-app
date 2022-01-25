@@ -65,6 +65,7 @@ function Dialog(props: DialogProps, ref: ForwardedRef<DialogRef>) {
       {type === 'timer' && (
         <TimerDialog
           visible={visible}
+          close={close}
           options={options as TimerDialogOptions}
         />
       )}
