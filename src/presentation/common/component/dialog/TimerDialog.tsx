@@ -7,6 +7,8 @@ import React, {
   useState,
 } from 'react';
 import { StyleSheet, View } from 'react-native';
+import TimeList, { TimeListRef } from './TimeList';
+import { convertHMSToValue, convertValueToHMS } from '@lib/DateTime';
 
 import { ColorPalette } from '@style/ColorPalette';
 import { DefaultOptions } from './interface';
@@ -15,10 +17,9 @@ import FullButton from '../button/FullButton';
 import Heading from '../text/Heading';
 import { ITEM_HEIGHT } from './TimeListItem';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import TimeList from './TimeList';
 import { Visible } from './DimmedView';
 import { addTimer } from '@reducer/Timer';
-import { getRandomId } from '@lib/random';
+import { getRandomId } from '@lib/Random';
 import timerUseCase from '@useCase/TimerUseCase';
 import { useDispatch } from 'react-redux';
 
@@ -33,26 +34,30 @@ interface TimerDialogProps {
   options: TimerDialogOptions;
 }
 
+interface TimeoutStateRef {
+  hour: number;
+  minute: number;
+  second: number;
+}
+
 export default function TimerDialog({
   visible,
   close,
   options,
 }: TimerDialogProps) {
-  const timeoutRef = useRef<number>(options.time);
+  const timeoutRef = useRef<TimeoutStateRef>(convertValueToHMS(options.time));
+  const hourRef = useRef<TimeListRef>(null);
+  const minuteRef = useRef<TimeListRef>(null);
+  const secondRef = useRef<TimeListRef>(null);
+
   const dispatch = useDispatch();
 
   const { hour, minute, second } = useMemo(() => {
-    const time = options.time;
-    let remain = time / 1000;
-    const hour = Math.floor(remain / 3600);
-    remain = remain % 3600;
-    const minute = Math.floor(remain / 60);
-    const second = remain % 60;
-    return { hour, minute, second };
+    return convertValueToHMS(options.time);
   }, [options.time]);
 
   const handlePressStart = useCallback(() => {
-    const timeout = timeoutRef.current;
+    const timeout = convertHMSToValue(timeoutRef.current);
     const id = getRandomId();
     const date = new Date(Date.now() + timeout);
     const notificationObject = {
@@ -73,6 +78,28 @@ export default function TimerDialog({
     close();
   }, []);
 
+  const handleChangeHour = useCallback((value: number) => {
+    timeoutRef.current.hour = value;
+  }, []);
+
+  const handleChangeMinute = useCallback((value: number) => {
+    if (timeoutRef.current.minute === 59 && value === 0) {
+      hourRef.current?.moveToNext();
+    } else if (timeoutRef.current.minute === 0 && value === 59) {
+      hourRef.current?.moveToPrev();
+    }
+    timeoutRef.current.minute = value;
+  }, []);
+
+  const handleChangeSecond = useCallback((value: number) => {
+    if (timeoutRef.current.second === 59 && value === 0) {
+      minuteRef.current?.moveToNext();
+    } else if (timeoutRef.current.second === 0 && value === 59) {
+      minuteRef.current?.moveToPrev();
+    }
+    timeoutRef.current.second = value;
+  }, []);
+
   return (
     <DialogView visible={visible} options={options}>
       <Icon
@@ -82,11 +109,24 @@ export default function TimerDialog({
         color={ColorPalette.ORANGE_100}
       />
       <View style={styles.timeListWrapper}>
-        <TimeList initialValue={hour} range={100} />
+        <TimeList
+          ref={hourRef}
+          initialValue={hour}
+          range={100}
+          onChangeValue={handleChangeHour}
+        />
         <Heading style={styles.colon}>:</Heading>
-        <TimeList initialValue={minute} />
+        <TimeList
+          ref={minuteRef}
+          initialValue={minute}
+          onChangeValue={handleChangeMinute}
+        />
         <Heading style={styles.colon}>:</Heading>
-        <TimeList initialValue={second} />
+        <TimeList
+          ref={secondRef}
+          initialValue={second}
+          onChangeValue={handleChangeSecond}
+        />
       </View>
       <FullButton onPress={handlePressStart}>Start</FullButton>
     </DialogView>

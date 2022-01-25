@@ -4,7 +4,7 @@ import PushNotification, {
 import { Timer, TimerOptions } from './Timer';
 
 import { Notification } from '@model/Notification';
-import { getRandomId } from '@lib/random';
+import { getRandomId } from '@lib/Random';
 
 export interface NotificationTimerOptions extends TimerOptions {
   date?: Date | null;

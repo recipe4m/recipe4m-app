@@ -1,4 +1,5 @@
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -10,6 +11,9 @@ import {
   PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import React, {
+  ForwardedRef,
+  MutableRefObject,
+  forwardRef,
   useCallback,
   useEffect,
   useMemo,
@@ -24,7 +28,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { convertHexToRGBA } from '@application/util/color';
 import useTheme from '@common/hook/useTheme';
 
-interface TimeListProps {
+export interface TimeListProps {
   initialValue: number;
   /**
    * 60 경우 0 ~ 59까지 숫자 표현
@@ -33,7 +37,12 @@ interface TimeListProps {
   onChangeValue?: (value: number) => void;
 }
 
-interface TimeListRef {
+export interface TimeListRef {
+  moveToNext: () => void;
+  moveToPrev: () => void;
+}
+
+interface TimeListStateRef {
   baseValue: number;
   diff: number;
   baseIndex: number;
@@ -42,13 +51,12 @@ interface TimeListRef {
 
 const THREADHOLD = ITEM_HEIGHT / 2;
 
-export default function TimeList({
-  initialValue,
-  range = 60,
-  onChangeValue,
-}: TimeListProps) {
+function TimeList(
+  { initialValue, range = 60, onChangeValue }: TimeListProps,
+  ref: ForwardedRef<TimeListRef>,
+) {
   const eventRef = useRef({ initialized: false });
-  const timeListRef = useRef<TimeListRef>({
+  const timeListState = useRef<TimeListStateRef>({
     baseValue: 0,
     diff: 0,
     baseIndex: 3,
@@ -62,7 +70,7 @@ export default function TimeList({
   const [value, setValue] = useState<number>(initialValue);
 
   const data = useMemo(() => {
-    const { index } = timeListRef.current;
+    const { index } = timeListState.current;
 
     const _values = Array.from({ length: 7 }, (_, i) => {
       let _value = value + i - 3;
@@ -86,20 +94,20 @@ export default function TimeList({
   );
 
   const handleBegan = useCallback(() => {
-    timeListRef.current.baseValue = value;
-    timeListRef.current.diff = 0;
-    timeListRef.current.baseIndex = timeListRef.current.index;
+    timeListState.current.baseValue = value;
+    timeListState.current.diff = 0;
+    timeListState.current.baseIndex = timeListState.current.index;
   }, [value]);
 
   const handleGestureEvent = useCallback(
     ({ nativeEvent }: GestureEvent<PanGestureHandlerEventPayload>) => {
-      const { baseValue, baseIndex, diff } = timeListRef.current;
+      const { baseValue, baseIndex, diff } = timeListState.current;
       const { translationY } = nativeEvent;
       translateY.value = (3 - baseIndex) * ITEM_HEIGHT + translationY;
       const _diff = Math.floor((translationY + THREADHOLD) / ITEM_HEIGHT);
       if (_diff !== diff) {
-        timeListRef.current.index += diff - _diff;
-        timeListRef.current.diff = _diff;
+        timeListState.current.index += diff - _diff;
+        timeListState.current.diff = _diff;
         let _value = baseValue - _diff;
         if (_value < 0) _value += range;
         else if (_value >= range) _value -= range;
@@ -111,7 +119,7 @@ export default function TimeList({
   );
 
   const handleEnded = useCallback(() => {
-    const { index } = timeListRef.current;
+    const { index } = timeListState.current;
 
     translateY.value = withTiming((3 - index) * ITEM_HEIGHT, {
       duration: 100,
@@ -135,6 +143,29 @@ export default function TimeList({
       if (onChangeValue) onChangeValue(value);
     }
   }, [onChangeValue, value]);
+
+  useEffect(() => {
+    if (ref as MutableRefObject<TimeListRef>) {
+      (ref as MutableRefObject<TimeListRef>).current = {
+        moveToNext: () => {
+          translateY.value = withTiming(translateY.value - ITEM_HEIGHT, {
+            duration: 100,
+          });
+          let _value = value + 1;
+          if (_value >= range) _value -= range;
+          setValue(_value);
+        },
+        moveToPrev: () => {
+          translateY.value = withTiming(translateY.value + ITEM_HEIGHT, {
+            duration: 100,
+          });
+          let _value = value - 1;
+          if (_value < 0) _value += range;
+          setValue(_value);
+        },
+      };
+    }
+  }, [ref, value]);
 
   return (
     <GestureHandlerRootView onStartShouldSetResponder={() => true}>
@@ -197,3 +228,5 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
+
+export default forwardRef(TimeList);

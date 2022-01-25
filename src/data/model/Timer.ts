@@ -1,4 +1,4 @@
-import { getRandomId } from '@lib/random';
+import { getRandomId } from '@lib/Random';
 export type Status = 'READY' | 'START' | 'RUN' | 'PAUSE' | 'STOP' | 'END';
 
 export interface TimerEvent {
