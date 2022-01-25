@@ -1,8 +1,5 @@
 let randomIndex = 0;
 
 export function getRandomId(): string {
-  return (
-    Math.floor(new Date().valueOf() / 100000) +
-    `${+randomIndex}`.padStart(2, '0')
-  );
+  return `${Date.now()}`.slice(2, 11);
 }
