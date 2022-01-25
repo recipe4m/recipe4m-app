@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSharedValue, withTiming } from 'react-native-reanimated';
 
 import CircularProgressBar from '../../common/component/CircularProgressBar';
 import FloatingTimerView from './FloatingTimerView';
@@ -13,8 +14,6 @@ interface FloatingTimerProps {}
 export default function FloatingTimer({}: FloatingTimerProps) {
   const { timers } = useTimer();
 
-  console.log(timers);
-
   if (timers.length === 0) return null;
 
   return (
@@ -27,11 +26,11 @@ export default function FloatingTimer({}: FloatingTimerProps) {
 }
 
 function Timer({ timer }: { timer: NotificationTimer }) {
-  const [progress, setProgress] = useState<number>(1);
+  const progress = useSharedValue<number>(1);
 
   useEffect(() => {
-    const handleRun = ({ progress }: TimerEvent) => {
-      setProgress(progress);
+    const handleRun = (e: TimerEvent) => {
+      progress.value = withTiming(e.progress, { duration: 100 });
     };
     timer.addEventListener('run', handleRun);
     return () => {

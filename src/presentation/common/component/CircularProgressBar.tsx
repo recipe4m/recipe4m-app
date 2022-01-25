@@ -1,12 +1,17 @@
-import Animated, { interpolate, multiply } from 'react-native-reanimated';
-import React, { useMemo } from 'react';
+import Animated, {
+  SharedValue,
+  interpolate,
+  multiply,
+  useAnimatedProps,
+} from 'react-native-reanimated';
+import React, { useEffect, useMemo, useRef } from 'react';
 import Svg, { Circle } from 'react-native-svg';
 
 import { ColorPalette } from '@style/ColorPalette';
 import useTheme from '@common/hook/useTheme';
 
 interface CircleProgressBarProps {
-  progress: number;
+  progress: SharedValue<number>;
   size?: number;
   strokeWidth?: number;
   strokeColor?: string;
@@ -29,8 +34,13 @@ export default function CircleProgressBar({
     return { radius, circumference };
   }, [size, strokeWidth]);
 
-  const alpha = interpolate(progress, [0, 1], [0, Math.PI * 2]);
-  const strokeDashoffset = multiply(alpha, -radius);
+  const animatedProps = useAnimatedProps(() => {
+    const alpha = interpolate(progress.value, [0, 1], [0, Math.PI * 2]);
+
+    return {
+      strokeDashoffset: alpha * radius,
+    };
+  });
 
   return (
     <Svg
@@ -53,8 +63,8 @@ export default function CircleProgressBar({
         cy={size / 2}
         r={radius}
         strokeWidth={strokeWidth}
-        strokeDashoffset={strokeDashoffset}
         strokeDasharray={`${circumference} ${circumference}`}
+        animatedProps={animatedProps}
       />
     </Svg>
   );
