@@ -12,11 +12,13 @@ export interface NotificationTimerOptions extends TimerOptions {
   notificationObject: PushNotificationScheduleObject;
 }
 
-const defaultPushNotificationScheduleObject = {
-  channelId: Notification.Channel.Timer.channelId,
-  allowWhileIdle: true,
-  repeatTime: 1,
-};
+const defaultPushNotificationScheduleObject: Partial<PushNotificationScheduleObject> =
+  {
+    channelId: Notification.Channel.Timer.channelId,
+    allowWhileIdle: true,
+    repeatTime: 1,
+    priority: 'high',
+  };
 
 export class NotificationTimer extends Timer {
   private _notificationObject: PushNotificationScheduleObject;
@@ -52,7 +54,7 @@ export class NotificationTimer extends Timer {
       ...defaultPushNotificationScheduleObject,
       ...this._notificationObject,
       date: this._date as Date,
-      id: this._id,
+      // id: this._id,
     });
   }
 
