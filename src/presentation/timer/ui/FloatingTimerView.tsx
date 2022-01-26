@@ -50,8 +50,9 @@ const styles = StyleSheet.create({
     height: 64,
     minWidth: 64,
     borderWidth: 2,
-    borderRadius: 40,
-    justifyContent: 'center',
+    borderRadius: 32,
+    paddingRight: 6,
+    justifyContent: 'flex-start',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
