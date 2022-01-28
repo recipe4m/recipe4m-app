@@ -1,8 +1,6 @@
 import CircularTimer from './CircularTimer';
 import FloatingTimerView from './FloatingTimerView';
 import React from 'react';
-import { Size } from '@style/Size';
-import { StyleSheet } from 'react-native';
 import { useTimer } from '@application/context/TimerContext';
 
 interface FloatingTimerProps {}
