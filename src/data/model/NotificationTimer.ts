@@ -18,6 +18,8 @@ const defaultPushNotificationScheduleObject: Partial<PushNotificationScheduleObj
     allowWhileIdle: true,
     repeatTime: 1,
     priority: 'high',
+    ignoreInForeground: false,
+    vibrate: true,
   };
 
 export class NotificationTimer extends Timer {
@@ -43,18 +45,11 @@ export class NotificationTimer extends Timer {
   start(): void {
     super.start();
 
-    console.log({
-      ...defaultPushNotificationScheduleObject,
-      ...this._notificationObject,
-      date: this._date as Date,
-      id: this._id,
-    });
-
     PushNotification.localNotificationSchedule({
       ...defaultPushNotificationScheduleObject,
       ...this._notificationObject,
       date: this._date as Date,
-      // id: this._id,
+      id: this._id,
     });
   }
 
