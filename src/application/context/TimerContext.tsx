@@ -9,7 +9,7 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { removeTimer, setTimer, setTimers } from '@reducer/Timer';
+import { Timer, removeTimer, setTimer, setTimers } from '@reducer/Timer';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { NotificationTimer } from '@model/NotificationTimer';
@@ -37,8 +37,8 @@ export function TimerProvider({
     return timerUseCase.timers;
   }, [timer]);
 
-  const sync = useCallback(() => {
-    timer.timers.forEach(timer => {
+  useEffect(() => {
+    timer.timers.forEach((timer: Timer) => {
       if (!timerUseCase.timers.some(({ id }) => timer.id === id)) {
         timerUseCase.addTimer({
           ...timer,
@@ -57,9 +57,7 @@ export function TimerProvider({
         });
       }
     });
-  }, [timer]);
-
-  useEffect(sync, [sync]);
+  }, [timer.timers]);
 
   useEffect(() => {
     PushNotification.getScheduledLocalNotifications(notifications => {

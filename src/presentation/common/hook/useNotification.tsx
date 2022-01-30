@@ -1,4 +1,3 @@
-import PushNotification from 'react-native-push-notification';
 import notificationUseCase from '@useCase/NotificationUseCase';
 import { useEffect } from 'react';
 

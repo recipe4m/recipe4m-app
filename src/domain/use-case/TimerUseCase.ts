@@ -47,6 +47,7 @@ export class TimersUseCase {
     this._timers.push(timer);
 
     if (timer.status === 'READY') timer.start();
+    else if (timer.status === 'RUN') timer.run();
 
     return timer;
   }

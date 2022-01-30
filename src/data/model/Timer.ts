@@ -17,6 +17,7 @@ export interface TimerOptions {
   status?: Status;
   timeout: number;
   remainTimeout?: number;
+  date?: Date | null;
 }
 
 export class Timer {
@@ -82,11 +83,13 @@ export class Timer {
     status = 'READY',
     timeout,
     remainTimeout,
+    date = null,
   }: TimerOptions) {
     this.id = id;
     this._status = status;
     this._timeout = timeout;
     this._remainTimeout = remainTimeout || timeout;
+    this._date = date;
   }
 
   protected get event() {
@@ -110,6 +113,7 @@ export class Timer {
   run() {
     if (this._interval) throw new Error('Timer has already run.');
     this._status = 'RUN';
+    this._remainTimeout = (this._date as Date).valueOf() - Date.now();
     this._excuteEventListener('run');
     this._interval = setInterval(() => {
       this._remainTimeout = (this._date as Date).valueOf() - Date.now();

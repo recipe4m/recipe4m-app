@@ -36,9 +36,14 @@ export class NotificationTimer extends Timer {
     notificationObject,
     ...timerOptions
   }: NotificationTimerOptions) {
-    super({ ...timerOptions, id });
+    const _date = date ? new Date(date) : null;
+    super({
+      ...timerOptions,
+      id,
+      date: _date,
+    });
     this._id = id;
-    this._date = date;
+    this._date = _date;
     this._notificationObject = notificationObject;
   }
 
