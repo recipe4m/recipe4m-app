@@ -1,16 +1,24 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 import { ColorPalette } from '@style/ColorPalette';
 import Heading from '@common/component/text/Heading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TimerCard as Item } from '@reducer/TimerCard';
 import Medium from '@common/component/text/Medium';
 import Regular from '@common/component/text/Regular';
 import TimerCardView from './TimerCardView';
+import { convertValueToHMS } from '@lib/DateTime';
 import { useDialog } from '@application/context/DialogContext';
 
-export default function TimerCard() {
+export interface TimerCardProps {
+  item: Item;
+}
+
+export default function TimerCard({
+  item: { title, description, timeout },
+}: TimerCardProps) {
   const timerCardRef = useRef<View>(null);
 
   const { openTimer } = useDialog();
@@ -33,15 +41,25 @@ export default function TimerCard() {
 
       openTimer({
         type: 'timer',
-        time: 4 * 60 * 1000,
+        time: timeout,
         layout: { x, y, width, height },
         source: require('@asset/image/ramen.jpg'),
         onOpen: handleOpen,
         onClose: handleClose,
-        message: '라면이 맛있어 시는 시간',
+        message: description,
       });
     });
   }, [opacity, openTimer]);
+
+  const time = useMemo(() => {
+    let time = '';
+    const { hour, minute, second } = convertValueToHMS(timeout);
+    if (hour > 0) time += hour + ':';
+    time += `${minute}`.padStart(2, '0') + ':';
+    time += `${second}`.padStart(2, '0');
+
+    return time;
+  }, [timeout]);
 
   return (
     <TimerCardView
@@ -56,15 +74,15 @@ export default function TimerCard() {
         color={ColorPalette.WHITE}
       />
       <View style={styles.summaryWrapper}>
-        <Heading style={styles.title}>라면</Heading>
-        <Regular style={styles.guide} numberOfLines={2}>
-          라면이 맛있어 지는 시간
+        <Heading style={styles.title}>{title}</Heading>
+        <Regular style={styles.description} numberOfLines={2}>
+          {description}
         </Regular>
       </View>
       <View style={styles.timerWrapper}>
         <View style={styles.timerInnerWrapper}>
           <Icon name="query-builder" color={ColorPalette.WHITE} size={18} />
-          <Medium style={styles.time}>04:00</Medium>
+          <Medium style={styles.time}>{time}</Medium>
         </View>
       </View>
     </TimerCardView>
@@ -83,7 +101,7 @@ const styles = StyleSheet.create({
     color: ColorPalette.WHITE,
     marginBottom: 10,
   },
-  guide: {
+  description: {
     color: ColorPalette.GRAY_200,
   },
   timerWrapper: {

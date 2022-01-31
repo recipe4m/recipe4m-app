@@ -16,7 +16,7 @@ import useTheme from '@common/hook/useTheme';
 
 export default function CircularTimer({ timer }: { timer: NotificationTimer }) {
   const progress = useSharedValue<number>(1);
-  const [count, setCount] = useState<number>(-1);
+  const [countDown, setCountDown] = useState<number>(-1);
   const fontValue = useSharedValue<number>(0);
   const { colors } = useTheme();
 
@@ -31,27 +31,27 @@ export default function CircularTimer({ timer }: { timer: NotificationTimer }) {
       progress.value = withTiming(e.progress, { duration: 100 });
 
       if (e.remainTimeout < 5000) {
-        const _count = Math.floor(e.remainTimeout / 1000) + 1;
-        if (count !== _count) setCount(_count);
+        const _countDown = Math.floor(e.remainTimeout / 1000) + 1;
+        if (countDown !== _countDown) setCountDown(_countDown);
       }
     };
     timer.addEventListener('run', handleRun);
     return () => {
       timer.removeEventListener('run', handleRun);
     };
-  }, [timer, count]);
+  }, [timer, countDown]);
 
   useEffect(() => {
     fontValue.value = 0;
     fontValue.value = withTiming(1, { duration: 1000 });
-  }, [count]);
+  }, [countDown]);
 
   return (
     <View style={styles.container}>
       <CircularProgressBar progress={progress} />
-      {count !== -1 && (
-        <Animated.Text style={[styles.count, animatedStyle]}>
-          {count}
+      {countDown !== -1 && (
+        <Animated.Text style={[styles.countDown, animatedStyle]}>
+          {countDown}
         </Animated.Text>
       )}
     </View>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  count: {
+  countDown: {
     position: 'absolute',
     fontWeight: '900',
   },
