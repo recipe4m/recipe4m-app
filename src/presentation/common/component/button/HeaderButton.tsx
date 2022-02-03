@@ -1,17 +1,18 @@
 import {
   Platform,
-  Pressable,
-  PressableProps,
   StyleProp,
   StyleSheet,
   Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
   ViewStyle,
 } from 'react-native';
 import React, { PropsWithChildren, useMemo } from 'react';
 
+import { Effect } from '@style/Effect';
 import useTheme from '@common/hook/useTheme';
 
-export interface HeaderButtonProps extends PressableProps {
+export interface HeaderButtonProps extends TouchableOpacityProps {
   style?: StyleProp<ViewStyle>;
 }
 
@@ -30,13 +31,16 @@ export default function HeaderButton({
   );
 
   return (
-    <Pressable style={[styles.wrapper, style]} {...props}>
+    <TouchableOpacity
+      style={[styles.wrapper, style]}
+      activeOpacity={Effect.BUTTON_ACTIVE_OPACITY}
+      {...props}>
       {typeof children === 'string' ? (
         <Text style={[styles.label, labelStyle]}>{children}</Text>
       ) : (
         children
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 

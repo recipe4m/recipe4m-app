@@ -70,7 +70,7 @@ export default function BottomTabView({
   }, []);
 
   return (
-    <View>
+    <>
       <Animated.View style={[headerContainer, animatedHeaderContainer]}>
         {HeaderComponent}
       </Animated.View>
@@ -82,7 +82,7 @@ export default function BottomTabView({
         scrollEventThrottle={16}>
         <View style={bodyStyle}>{children}</View>
       </ScrollView>
-    </View>
+    </>
   );
 }
 

@@ -1,16 +1,17 @@
-import React, { ForwardedRef, forwardRef, PropsWithChildren } from 'react';
 import {
-  StyleProp,
   ImageBackground,
-  ViewStyle,
-  StyleSheet,
+  ImageSourcePropType,
   Pressable,
   PressableProps,
-  ImageSourcePropType,
+  StyleProp,
+  StyleSheet,
   View,
+  ViewStyle,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import React, { ForwardedRef, PropsWithChildren, forwardRef } from 'react';
+
 import Animated from 'react-native-reanimated';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface TimerCardViewProps extends Omit<PressableProps, 'style'> {
   style: StyleProp<ViewStyle>;
@@ -39,6 +40,7 @@ function TimerCardView(
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     margin: 18,
     padding: 18,
     borderRadius: 18,
