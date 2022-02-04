@@ -22,13 +22,13 @@ import { useDialog } from '@application/context/DialogContext';
 
 export interface TimerCardProps {
   item: Item;
+  onPressRemove?: (item: Item) => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export default function TimerCard({
-  item: { title, description, timeout },
-}: TimerCardProps) {
+export default function TimerCard({ item, onPressRemove }: TimerCardProps) {
+  const { title, description, timeout } = item;
   const timerCardRef = useRef<View>(null);
 
   const { openTimer } = useDialog();
@@ -84,6 +84,10 @@ export default function TimerCard({
       });
     }
   }, [opacity, openTimer]);
+
+  const handlePressRemove = useCallback(() => {
+    if (onPressRemove) onPressRemove(item);
+  }, [item]);
 
   const time = useMemo(() => {
     let time = '';
@@ -148,7 +152,8 @@ export default function TimerCard({
         </TimerCardView>
       </PanGestureHandler>
       <AnimatedPressable
-        style={[styles.removeButtonWrapper, animatedRemoveButtonStyle]}>
+        style={[styles.removeButtonWrapper, animatedRemoveButtonStyle]}
+        onPress={handlePressRemove}>
         <Animated.View style={animatedRemoveItemWrapperStyle}>
           <Icon name="delete-forever" size={35} color={ColorPalette.WHITE} />
         </Animated.View>

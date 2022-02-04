@@ -8,12 +8,16 @@ import { View } from 'react-native';
 import { useTimerCards } from '../hook/useTimerCards';
 
 export default function ShortcutScreen() {
-  const { timerCards } = useTimerCards();
+  const { timerCards, handlePressRemove } = useTimerCards();
 
   return (
     <BottomTabView HeaderComponent={<HeaderComponent />}>
       {timerCards.map(timerCard => (
-        <TimerCard key={timerCard.id} item={timerCard} />
+        <TimerCard
+          key={timerCard.id}
+          item={timerCard}
+          onPressRemove={handlePressRemove}
+        />
       ))}
     </BottomTabView>
   );

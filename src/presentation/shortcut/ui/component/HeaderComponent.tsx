@@ -19,8 +19,6 @@ export default function HeaderComponent({
 
   return (
     <View style={styles.container}>
-      <HeaderButton onPress={onPressEdit}>편집</HeaderButton>
-
       <HeaderButton onPress={onPressAdd}>
         <MaterialIcon
           name="add"
@@ -37,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     paddingHorizontal: 18,
   },
 });
