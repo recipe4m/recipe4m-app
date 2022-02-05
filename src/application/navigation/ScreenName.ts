@@ -3,6 +3,7 @@ export enum ScreenName {
    * Stack Navigator
    */
   BottomTabNavigator = 'BottomTabNavigator',
+  TimerCardScreen = 'TimerCardScreen',
   /**
    * Bottom Tab Navigator
    */
