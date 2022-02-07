@@ -11,6 +11,7 @@ import { convertHMSToValue, convertValueToHMS } from '@lib/DateTime';
 import HeaderButton from '@common/component/button/HeaderButton';
 import Heading from '@common/component/text/Heading';
 import { ITEM_HEIGHT } from '@common/component/dialog/TimeListItem';
+import InputItem from '@common/component/text/InputItem';
 import { TextInput } from 'react-native-gesture-handler';
 import { addTimerCard } from '@reducer/TimerCard';
 import { getRandomId } from '@lib/Random';
@@ -83,8 +84,8 @@ export default function TimerCardScreen() {
         <HeaderButton onPress={handlePressCancel}>취소</HeaderButton>
         <HeaderButton onPress={handlePressSave}>저장</HeaderButton>
       </View>
-      <TextInput placeholder="라면" />
-      <TextInput placeholder="라면이 맛있어지는 시간" />
+      <InputItem placeholder="라면" />
+      <InputItem placeholder="라면이 맛있어지는 시간" />
       <View style={styles.timeListWrapper}>
         <TimeList
           ref={hourRef}
