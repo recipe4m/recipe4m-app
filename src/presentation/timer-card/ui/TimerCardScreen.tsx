@@ -84,8 +84,8 @@ export default function TimerCardScreen() {
         <HeaderButton onPress={handlePressCancel}>취소</HeaderButton>
         <HeaderButton onPress={handlePressSave}>저장</HeaderButton>
       </View>
-      <InputItem placeholder="라면" />
-      <InputItem placeholder="라면이 맛있어지는 시간" />
+      <InputItem label="이름" placeholder="라면" />
+      <InputItem label="설명" placeholder="라면이 맛있어지는 시간" />
       <View style={styles.timeListWrapper}>
         <TimeList
           ref={hourRef}
